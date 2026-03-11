@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     navigateTo('dashboard');
   } else {
     state.user = null;
-    navigateTo('auth');
+    navigateTo('landing');
   }
 });
 
@@ -104,9 +104,9 @@ _supabase.auth.onAuthStateChange(async (event, session) => {
 
 // ── Navigation ──
 function navigateTo(page) {
-  // Guard: if not logged in, only allow 'auth' page
-  if(!state.user && page !== 'auth'){
-    navigateTo('auth');
+  // Guard: if not logged in, only allow 'auth' or 'landing' pages
+  if(!state.user && page !== 'auth' && page !== 'landing'){
+    navigateTo('landing');
     return;
   }
   

@@ -13,17 +13,12 @@
     <!-- ═══════════ NAVBAR ═══════════ -->
     <nav id="navbar" class="navbar">
         <div class="nav-inner">
-            <div class="nav-logo" onclick="navigateTo('home')">
+            <div class="nav-logo" onclick="navigateTo('dashboard')">
                 <div class="logo-icon">
                     <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                        <rect x="2" y="4" width="16" height="20" rx="2" fill="url(#lg1)" opacity="0.9"/>
-                        <rect x="6" y="2" width="16" height="20" rx="2" fill="url(#lg2)" opacity="0.95"/>
-                        <rect x="10" y="0" width="16" height="20" rx="2" fill="url(#lg3)"/>
-                        <defs>
-                            <linearGradient id="lg1" x1="2" y1="4" x2="18" y2="24"><stop stop-color="#00B894"/><stop offset="1" stop-color="#006B5A"/></linearGradient>
-                            <linearGradient id="lg2" x1="6" y1="2" x2="22" y2="22"><stop stop-color="#00D4A0"/><stop offset="1" stop-color="#00B894"/></linearGradient>
-                            <linearGradient id="lg3" x1="10" y1="0" x2="26" y2="20"><stop stop-color="#00E6A8"/><stop offset="1" stop-color="#00D4A0"/></linearGradient>
-                        </defs>
+                        <rect x="2" y="4" width="16" height="20" rx="4" fill="var(--accent3)" opacity="0.6"/>
+                        <rect x="6" y="2" width="16" height="20" rx="4" fill="var(--accent2)" opacity="0.8"/>
+                        <rect x="10" y="0" width="16" height="20" rx="4" fill="var(--accent)"/>
                     </svg>
                 </div>
                 <span class="logo-text">BookHunt</span>
@@ -61,23 +56,27 @@
         <button class="btn-primary w-full" onclick="showSignup();toggleMobileMenu()">Get Started</button>
     </div>
 
-    <!-- ═══════════ PAGE: HOME ═══════════ -->
-    <section id="page-home" class="page active">
+    <!-- ═══════════ PAGE: LANDING ═══════════ -->
+    <section id="page-landing" class="page active">
         <div class="hero">
-            <div class="hero-bg-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+            <div class="hero-bg-orbs">
+                <div class="orb orb-1"></div>
+                <div class="orb orb-2"></div>
+                <div class="orb orb-3"></div>
+            </div>
             <div class="hero-content">
-                <div class="trust-badge animate-in"><span class="badge-star">⭐</span><span>Trusted by <strong>10,000+</strong> Students</span></div>
-                <h1 class="hero-title animate-in delay-1">Study Smarter with<br><span class="gradient-text">AI-Powered Books</span></h1>
-                <p class="hero-subtitle animate-in delay-2">CBSE, ICSE, College & Competitive Exam books with AI summaries, chat, and NCERT PDFs. Built for Indian students.</p>
+                <div class="trust-badge animate-in">🚀 Trusted by 10,000+ Indian Students</div>
+                <h1 class="hero-title animate-in delay-1">Learn anything <br><span class="gradient-text">effortlessly.</span></h1>
+                <p class="hero-subtitle animate-in delay-2">The ultimate AI-powered study companion for CBSE, ICSE, and Competitive Exams. Chat with NCERT books, generate quizzes, and master concepts in minutes.</p>
                 <div class="hero-cta animate-in delay-3">
-                    <button class="btn-primary btn-lg" onclick="showSignup()"><span>Start Learning</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-                    <button class="btn-outline btn-lg" onclick="navigateTo('library')"><span>Browse Books</span></button>
+                    <button class="btn-primary btn-lg" onclick="showSignup()">Get Started — It's Free</button>
+                    <button class="btn-outline btn-lg" onclick="navigateTo('library')">Explore Library</button>
                 </div>
             </div>
             <div class="hero-cards animate-in delay-4">
-                <div class="floating-card card-left"><div class="fc-icon">🏫</div><div class="fc-title">CBSE & ICSE</div><div class="fc-stat">NCERT books with AI tutor</div></div>
-                <div class="floating-card card-center"><div class="fc-icon">📚</div><div class="fc-title">All Subjects</div><div class="fc-big-stat">Class 6-12</div><div class="fc-detail">Math • Science • English • More</div></div>
-                <div class="floating-card card-right"><div class="fc-icon">🏆</div><div class="fc-title">Competitive Exams</div><div class="fc-stat">JEE • NEET • UPSC • CAT</div></div>
+                <div class="floating-card"><div class="fc-icon">🔬</div><div class="fc-title">NCERT AI TUTOR</div><div class="fc-big-stat">100%</div><div class="fc-detail">Curriculum Coverage</div></div>
+                <div class="floating-card"><div class="fc-icon">🤖</div><div class="fc-title">SMART QUERIES</div><div class="fc-big-stat">1.5M</div><div class="fc-detail">Questions Answered</div></div>
+                <div class="floating-card"><div class="fc-icon">📚</div><div class="fc-title">LIBRARY SIZE</div><div class="fc-big-stat">30k+</div><div class="fc-detail">Indian Textbooks</div></div>
             </div>
         </div>
         <div class="features-section">
@@ -93,18 +92,63 @@
             </div>
         </div>
         <div class="cta-section">
-            <div class="cta-card"><h2>Ready to ace your exams?</h2><p>Join thousands of Indian students using AI to study smarter.</p><button class="btn-primary btn-lg" onclick="showSignup()">Get Started — It's Free</button></div>
-        </div>
-        <footer class="footer">
-            <div class="footer-inner">
-                <div class="footer-brand"><div class="nav-logo"><div class="logo-icon"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><rect x="2" y="4" width="16" height="20" rx="2" fill="#00B894" opacity="0.6"/><rect x="6" y="2" width="16" height="20" rx="2" fill="#00D4A0" opacity="0.8"/><rect x="10" y="0" width="16" height="20" rx="2" fill="#00E6A8"/></svg></div><span class="logo-text">BookHunt</span></div><p class="text-muted">AI-powered study platform for Indian students.</p></div>
-                <div class="footer-links">
-                    <div><h4>Categories</h4><a href="#">CBSE</a><a href="#">ICSE</a><a href="#">College</a><a href="#">Exams</a></div>
-                    <div><h4>Company</h4><a href="#">About</a><a href="#">Blog</a><a href="#">Contact</a></div>
-                    <div><h4>Support</h4><a href="#">Help</a><a href="#">Privacy</a><a href="#">Terms</a></div>
+            <div class="cta-card">
+                <h2>Ready to ace your exams?</h2>
+                <p>Join 10,000+ Indian students using AI to study smarter, not harder.</p>
+                <div class="cta-actions">
+                    <button class="btn-primary btn-lg" onclick="showSignup()">Get Started — It's Free</button>
+                    <button class="btn-outline btn-lg" onclick="navigateTo('library')">Browse Library</button>
                 </div>
             </div>
-            <div class="footer-bottom"><span>© 2026 BookHunt. All rights reserved.</span></div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-inner">
+                <div class="footer-brand">
+                    <div class="nav-logo" onclick="navigateTo('dashboard')">
+                        <div class="logo-icon">
+                            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                                <rect x="2" y="4" width="16" height="20" rx="4" fill="var(--accent3)" opacity="0.6"/>
+                                <rect x="6" y="2" width="16" height="20" rx="4" fill="var(--accent2)" opacity="0.8"/>
+                                <rect x="10" y="0" width="16" height="20" rx="4" fill="var(--accent)"/>
+                            </svg>
+                        </div>
+                        <span class="logo-text">BookHunt</span>
+                    </div>
+                    <p>The ultimate AI-powered study companion for CBSE, ICSE, and Competitive Exams. Built with ❤️ in India.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Categories</h4>
+                        <a href="#" onclick="navigateTo('library')">CBSE Class 1-12</a>
+                        <a href="#" onclick="navigateTo('library')">ICSE Board</a>
+                        <a href="#" onclick="navigateTo('library')">College Degree</a>
+                        <a href="#" onclick="navigateTo('library')">Competitive Exams</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Features</h4>
+                        <a href="#">AI Mini Tutor</a>
+                        <a href="#">Flashcard Factory</a>
+                        <a href="#">Quiz Master</a>
+                        <a href="#">NCERT Reader</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Community</h4>
+                        <a href="#">About Us</a>
+                        <a href="#">Success Stories</a>
+                        <a href="#">Blog</a>
+                        <a href="#">Contact</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 BookHunt. Developed by Macii.</span>
+                <div class="footer-socials">
+                    <a href="#">Twitter</a>
+                    <a href="#">Discord</a>
+                    <a href="#">Instagram</a>
+                </div>
+            </div>
         </footer>
     </section>
 
