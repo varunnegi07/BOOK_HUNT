@@ -25,7 +25,8 @@ let state = {
   activeCat: null,
   activeSub: null,
   activeBook: null,
-  currentPage: 'home'
+  currentPage: 'home',
+  currentAttachment: null // { name, content }
 };
 
 function save(k,v){
@@ -598,9 +599,111 @@ async function sendStudioMsg(text){
     msgs.scrollTop=msgs.scrollHeight;
   } catch (err) {
     const t=document.getElementById('studioTyping');if(t)t.remove();
-    msgs.innerHTML+=modalMsgHTML('assistant', `⚠️ Error: ${err.message}`);
+    msgs.innerHTML+=modalMsgHTML('assistant', `⚠️ AI Error: ${err.message}`);
   }
 }
+
+// ── File Management ──
+async function handleFileUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  
+  if (file.size > 5 * 1024 * 1024) { // 5MB Limit
+    showToast('⚠️ File too large. Max 5MB.', 'error');
+    return;
+  }
+
+  showToast('📄 Reading file...', 'info');
+  const reader = new FileReader();
+  
+  if (file.type === 'application/pdf') {
+    reader.onload = async function() {
+      try {
+        const typedarray = new Uint8Array(this.result);
+        const pdf = await pdfjsLib.getDocument(typedarray).promise;
+        let fullText = "";
+        for (let i = 1; i <= Math.min(pdf.numPages, 10); i++) { // Limit to 10 pages for speed/tokens
+          const page = await pdf.getPage(i);
+          const textContent = await page.getTextContent();
+          fullText += textContent.items.map(item => item.str).join(' ') + "\n";
+        }
+        setAttachment(file.name, fullText);
+      } catch (err) {
+        showToast('❌ Failed to parse PDF.', 'error');
+        console.error(err);
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  } else {
+    reader.onload = function() {
+      setAttachment(file.name, this.result);
+    };
+    reader.readAsText(file);
+  }
+}
+
+function setAttachment(name, content) {
+  state.currentAttachment = { name, content };
+  const chip = document.getElementById('studioAttachment');
+  const nameLabel = document.getElementById('fileNameDisplay');
+  if (chip && nameLabel) {
+    nameLabel.textContent = name;
+    chip.style.display = 'inline-flex';
+  }
+  showToast('✅ File attached and analyzed.', 'success');
+}
+
+function clearAttachment() {
+  state.currentAttachment = null;
+  const chip = document.getElementById('studioAttachment');
+  const fileInput = document.getElementById('studioFile');
+  if (chip) chip.style.display = 'none';
+  if (fileInput) fileInput.value = '';
+}
+
+// Update sendStudioMsg to include context (Redefining to include attachment logic)
+async function sendStudioMsg(text){
+  const input=document.getElementById('studioInput');
+  const msg=text||(input?input.value.trim():'');
+  if(!msg||!modalBook)return;
+  if(input)input.value='';
+  
+  const msgs=document.getElementById('studioMsgs');
+  const welcome=msgs.querySelector('.chat-welcome-mini');
+  if(welcome)welcome.remove();
+
+  if(!state.chatHistory[modalBook.id])state.chatHistory[modalBook.id]=[];
+  
+  // Create prompt with file context if exists
+  let fullPrompt = msg;
+  if (state.currentAttachment) {
+    fullPrompt = `[ATTACHED FILE: ${state.currentAttachment.name}]\nCONTENT: ${state.currentAttachment.content.substring(0, 15000)}\n\nUSER QUESTION: ${msg}`;
+  }
+
+  state.chatHistory[modalBook.id].push({role:'user',content:msg});
+  state.stats.queries++;save('bh_stats',state.stats);
+
+  msgs.innerHTML+=modalMsgHTML('user', msg);
+  msgs.innerHTML+=`<div class="message ai" id="studioTyping"><div class="msg-avatar">🤖</div><div class="msg-bubble"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div></div>`;
+  msgs.scrollTop=msgs.scrollHeight;
+
+  try {
+    const resp = await callAIAPI(fullPrompt, modalBook);
+    state.chatHistory[modalBook.id].push({role:'assistant',content:resp});
+    const t=document.getElementById('studioTyping');if(t)t.remove();
+    msgs.innerHTML+=modalMsgHTML('assistant',resp);
+    msgs.scrollTop=msgs.scrollHeight;
+  } catch (err) {
+    const t=document.getElementById('studioTyping');if(t)t.remove();
+    msgs.innerHTML+=modalMsgHTML('assistant', `⚠️ AI Error: ${err.message}`);
+  }
+}
+
+// PDF.js worker setup
+if (typeof pdfjsLib !== 'undefined') {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+
 
 
 // ── Quiz & Flashcard Shared Logic ──
