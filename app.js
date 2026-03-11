@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   } else {
     state.user = null;
     localStorage.removeItem('bh_user');
+    updateUIForGuest();
     navigateTo('landing');
   }
 });
@@ -105,19 +106,17 @@ _supabase.auth.onAuthStateChange(async (event, session) => {
   } else if (event === 'SIGNED_OUT') {
     state.user = null;
     localStorage.removeItem('bh_user');
-    navigateTo('auth');
-    document.getElementById('btnLogin').style.display='';
-    document.getElementById('btnSignup').style.display='';
-    document.getElementById('userAvatar').style.display='none';
-    document.getElementById('navLinks').style.display='none';
+    updateUIForGuest();
+    navigateTo('landing');
   }
 });
 
 // ── Navigation ──
 function navigateTo(page) {
-  // Guard: if not logged in, only allow 'auth', 'landing' or 'premium' pages
-  if(!state.user && page !== 'auth' && page !== 'landing' && page !== 'premium'){
-    navigateTo('landing');
+  // Guard: if not logged in, only allow 'auth', 'landing', 'library' or 'premium' pages
+  if(!state.user && page !== 'auth' && page !== 'landing' && page !== 'library' && page !== 'premium'){
+    showToast('🔑 Please log in to access this feature', 'info');
+    navigateTo('auth');
     return;
   }
   
@@ -226,17 +225,41 @@ function updateUIForLoggedIn(){
   document.getElementById('btnLogin').style.display='none';
   document.getElementById('btnSignup').style.display='none';
   document.getElementById('navLinks').style.display='flex';
+  // Show all links for logged in
+  document.querySelectorAll('.nav-links a').forEach(a=>a.style.display='');
+  
   const a=document.getElementById('userAvatar');a.style.display='flex';
   document.getElementById('avatarLetter').textContent=state.user.name[0].toUpperCase();
   document.getElementById('dropdownName').textContent=state.user.name;
   document.getElementById('dropdownEmail').textContent=state.user.email;
   
   // Update Hero Buttons on Landing
-  const heroActions = document.querySelector('.hero-actions');
+  const heroActions = document.querySelector('.hero-cta');
   if (heroActions && state.user) {
     heroActions.innerHTML = `
-      <button class="btn-primary" onclick="navigateTo('dashboard')">Go to Dashboard</button>
-      <button class="btn-outline" onclick="navigateTo('library')">Explore Library</button>
+      <button class="btn-primary btn-lg" onclick="navigateTo('dashboard')">Go to Dashboard</button>
+      <button class="btn-outline btn-lg" onclick="navigateTo('library')">Explore Library</button>
+    `;
+  }
+}
+
+function updateUIForGuest(){
+  document.getElementById('btnLogin').style.display='';
+  document.getElementById('btnSignup').style.display='';
+  document.getElementById('navLinks').style.display='flex';
+  const a=document.getElementById('userAvatar');a.style.display='none';
+  
+  // Only show Library link for guests in navbar
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.style.display = a.dataset.page === 'library' ? '' : 'none';
+  });
+
+  // Reset Hero Buttons on Landing
+  const heroActions = document.querySelector('.hero-cta'); // Correct selector from index.html
+  if (heroActions) {
+    heroActions.innerHTML = `
+      <button class="btn-primary btn-lg" onclick="navigateTo('library')">Explore Library</button>
+      <button class="btn-outline btn-lg" onclick="showSignup()">Get Started Free</button>
     `;
   }
 }
@@ -1012,6 +1035,11 @@ async function callAIAPI(q, book, jsonMode = false){
 
 // ── Bookmarks ──
 function toggleBookmark(id){
+  if(!state.user){
+    showToast('⭐ Log in to bookmark your favorite books!', 'info');
+    navigateTo('auth');
+    return;
+  }
   const idx=state.bookmarks.indexOf(id);
   if(idx>=0){state.bookmarks.splice(idx,1);showToast('☆ Bookmark removed');}
   else{state.bookmarks.push(id);showToast('⭐ Book bookmarked!');addActivity('⭐',`Bookmarked "${findBookById(id)?.title}"`);}
@@ -1021,6 +1049,11 @@ function toggleBookmark(id){
 
 // ── Progress ──
 function toggleChapter(bookId,chIdx,btn){
+  if(!state.user){
+    showToast('📚 Log in to track your reading progress!', 'info');
+    navigateTo('auth');
+    return;
+  }
   if(!state.progress[bookId])state.progress[bookId]={opened:true,chaptersRead:[]};
   const cr=state.progress[bookId].chaptersRead;
   const idx=cr.indexOf(chIdx);
@@ -1032,6 +1065,11 @@ function toggleChapter(bookId,chIdx,btn){
 
 // ── PDF Reader ──
 function readBook(){
+  if(!state.user){
+    showToast('📖 Log in to read this book!', 'info');
+    navigateTo('auth');
+    return;
+  }
   if(!modalBook)return;
   if(modalBook.code){
     const url=ncertPdf(modalBook.code,1);
@@ -1044,6 +1082,11 @@ function readBook(){
 }
 
 function readChapter(chNum){
+  if(!state.user){
+    showToast('📖 Log in to read chapters!', 'info');
+    navigateTo('auth');
+    return;
+  }
   if(!modalBook||!modalBook.code)return;
   const url=ncertPdf(modalBook.code,chNum);
   openReader(url,`${modalBook.title} - Chapter ${chNum}`);
@@ -1063,6 +1106,11 @@ function closeReader(){
 }
 
 function downloadBook(){
+  if(!state.user){
+    showToast('⬇ Log in to download books!', 'info');
+    navigateTo('auth');
+    return;
+  }
   if(!modalBook)return;
   if(modalBook.code){
     window.open(ncertPage(modalBook.code,modalBook.ch||10),'_blank');
