@@ -83,11 +83,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   const { data: { user } } = await _supabase.auth.getUser();
   if (user) {
     state.user = { name: user.user_metadata.full_name || user.email.split('@')[0], email: user.email };
+    localStorage.setItem('bh_user', JSON.stringify(state.user));
     await fetchFromSupabase(); // Load data from DB
     updateUIForLoggedIn();
-    navigateTo('dashboard');
+    if(state.currentPage === 'landing' || state.currentPage === 'auth') navigateTo('dashboard');
   } else {
     state.user = null;
+    localStorage.removeItem('bh_user');
     navigateTo('landing');
   }
 });
@@ -96,11 +98,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 _supabase.auth.onAuthStateChange(async (event, session) => {
   if (event === 'SIGNED_IN' && session) {
     state.user = { name: session.user.user_metadata.full_name || session.user.email.split('@')[0], email: session.user.email };
+    localStorage.setItem('bh_user', JSON.stringify(state.user));
     await fetchFromSupabase(); // Sync data immediately on login
     updateUIForLoggedIn();
     navigateTo('dashboard');
   } else if (event === 'SIGNED_OUT') {
     state.user = null;
+    localStorage.removeItem('bh_user');
     navigateTo('auth');
     document.getElementById('btnLogin').style.display='';
     document.getElementById('btnSignup').style.display='';
@@ -226,6 +230,15 @@ function updateUIForLoggedIn(){
   document.getElementById('avatarLetter').textContent=state.user.name[0].toUpperCase();
   document.getElementById('dropdownName').textContent=state.user.name;
   document.getElementById('dropdownEmail').textContent=state.user.email;
+  
+  // Update Hero Buttons on Landing
+  const heroActions = document.querySelector('.hero-actions');
+  if (heroActions && state.user) {
+    heroActions.innerHTML = `
+      <button class="btn-primary" onclick="navigateTo('dashboard')">Go to Dashboard</button>
+      <button class="btn-outline" onclick="navigateTo('library')">Explore Library</button>
+    `;
+  }
 }
 function toggleUserMenu(){document.getElementById('userDropdown').classList.toggle('show');}
 function closeUserMenu(){document.getElementById('userDropdown').classList.remove('show');}
