@@ -20,6 +20,7 @@ let state = {
   progress: JSON.parse(localStorage.getItem('bh_progress')) || {},
   stats: JSON.parse(localStorage.getItem('bh_stats')) || {queries:0,summaries:0,streak:1},
   activities: JSON.parse(localStorage.getItem('bh_activities')) || [],
+  isPremium: JSON.parse(localStorage.getItem('bh_isPremium')) || false,
   chatHistory: {},
   activeCat: null,
   activeSub: null,
@@ -42,6 +43,7 @@ async function syncToSupabase() {
     progress: state.progress,
     stats: state.stats,
     activities: state.activities,
+    isPremium: state.isPremium,
     updated_at: new Date()
   });
   if (error) console.error('Supabase Sync Error:', error.message);
@@ -62,12 +64,16 @@ async function fetchFromSupabase() {
     state.progress = data.progress || {};
     state.stats = data.stats || {queries:0,summaries:0,streak:1};
     state.activities = data.activities || [];
+    state.isPremium = data.isPremium || false;
     // Update localStorage
+    localStorage.setItem('bh_isPremium', state.isPremium);
     localStorage.setItem('bh_bookmarks', JSON.stringify(state.bookmarks));
     localStorage.setItem('bh_progress', JSON.stringify(state.progress));
     localStorage.setItem('bh_stats', JSON.stringify(state.stats));
     localStorage.setItem('bh_activities', JSON.stringify(state.activities));
   }
+  // Also load from local if DB fetch fails or for immediate use
+  if(localStorage.getItem('bh_isPremium') === 'true') state.isPremium = true;
 }
 
 // ── Init ──
@@ -140,6 +146,22 @@ function selectUserType(type,btn){
   document.getElementById('schoolFields').style.display=type==='school'?'block':'none';
   document.getElementById('collegeFields').style.display=type==='college'?'block':'none';
 }
+
+function applyPromoCode() {
+  const code = document.getElementById('promoInput').value.trim().toUpperCase();
+  if (code === 'VARUN') {
+    state.isPremium = true;
+    localStorage.setItem('bh_isPremium', 'true');
+    save('bh_isPremium', true); // Persist
+    showToast('💎 Premium Unlocked! Enjoy all BookHunt Pro features.', 'success');
+    document.getElementById('promoInput').value = '';
+    // If logged in, update UI
+    if(state.user) renderDashboard();
+  } else {
+    showToast('❌ Invalid promo code.', 'error');
+  }
+}
+
 async function handleLogin(e){
   e.preventDefault();
   const email=document.getElementById('loginEmail').value;
@@ -200,7 +222,8 @@ function renderDashboard(){
   if(!state.user)return;
   const h=new Date().getHours();
   const g=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
-  document.getElementById('dashGreeting').textContent=`${g}, ${state.user.name}! 👋`;
+  const premiumBadge = state.isPremium ? ' <span class="badge-pro" style="background:var(--accent);color:#fff;font-size:10px;padding:2px 10px;border-radius:20px;vertical-align:middle;margin-left:8px;font-weight:900;box-shadow:0 0 10px rgba(255,107,44,0.4);">PRO</span>' : '';
+  document.getElementById('dashGreeting').innerHTML = `${g}, ${state.user.name}! 👋${premiumBadge}`;
   document.getElementById('statBooks').textContent=state.bookmarks.length;
   document.getElementById('statQueries').textContent=state.stats.queries;
   document.getElementById('statSummaries').textContent=state.stats.summaries;
@@ -407,7 +430,7 @@ function bookCardHTML(book){
 function bookCardSmall(book){
   const cv=coverUrl(book,'S');
   return `<div class="book-card-sm" onclick="openBookModal('${book.id}')">
-    <div class="book-cover-sm" style="background:${book.gradient||GRADIENTS[0]}">${cv?`<img src="${cv}" alt="" class="book-cover-img" onerror="this.style.display='none'" loading="lazy">`:''}<span style="font-size:24px">${book.emoji||'📚'}</span></div>
+    <div class="book-cover-sm" style="background:${book.gradient||GRADIENTS[0]}">${cv?`<img src="${cv}" alt="" class="book-cover-img" onerror="this.style.display='none'" loading="lazy'>`:''}<span style="font-size:24px">${book.emoji||'📚'}</span></div>
     <span class="book-sm-title">${book.title}</span>
   </div>`;
 }
@@ -425,6 +448,7 @@ function openBookModal(id){
   // Build modal
   const cv=coverUrl(book,'L');
   const bm=state.bookmarks.includes(id);
+  const proBadge = state.isPremium ? '' : ' <span class="locked-badge" style="font-size:12px;opacity:0.6;">💎</span>';
   const modal=document.getElementById('bookModal');
   document.getElementById('modalBody').innerHTML=`
     <div class="modal-top-bar">
@@ -444,7 +468,7 @@ function openBookModal(id){
         </div>
         <div class="modal-actions">
           <button class="btn-primary" onclick="readBook()">📖 Read Book</button>
-          <button class="btn-outline" onclick="enterStudioChat()">🤖 AI Chat Studio</button>
+          <button class="btn-outline" onclick="enterStudioChat()">🤖 AI Chat Studio${proBadge}</button>
           <button class="btn-outline" onclick="toggleBookmark('${id}')">${bm?'⭐ Bookmarked':'☆ Bookmark'}</button>
           ${book.code?`<button class="btn-outline" onclick="downloadBook()">⬇ Download</button>`:''}
         </div>
@@ -453,8 +477,8 @@ function openBookModal(id){
     <div class="modal-tabs">
       <button class="mtab active" onclick="switchModalTab('info',this)">📋 Info</button>
       <button class="mtab" onclick="switchModalTab('summary',this)">📝 Summary</button>
-      <button class="mtab" onclick="switchModalTab('quiz',this)">🏆 Quiz</button>
-      <button class="mtab" onclick="switchModalTab('flash',this)">🎴 Flashcards</button>
+      <button class="mtab" onclick="switchModalTab('quiz',this)">🏆 Quiz${proBadge}</button>
+      <button class="mtab" onclick="switchModalTab('flash',this)">🎴 Flashcards${proBadge}</button>
     </div>
     <div class="modal-tab-content" id="modalTabContent">
       ${renderInfoTab(book)}
@@ -502,7 +526,11 @@ function renderSummaryTab(book){
 
 // ── Chat Studio ──
 function enterStudioChat(){
-  if(!modalBook) return;
+  if(!state.isPremium){
+    showToast('💎 BookHunt Pro required for AI Chat Studio!', 'error');
+    return;
+  }
+  if(!modalBook)return;
   closeModal();
   navigateTo('studio');
   
@@ -625,6 +653,10 @@ function renderFlashcardsTab(book){
 }
 
 async function startAIQuiz(){
+  if(!state.isPremium){
+    showToast('💎 Upgrade to Pro or use a promo code to unlock AI Quizzes!', 'error');
+    return;
+  }
   const scope = document.getElementById('quizScope').value;
   const count = document.getElementById('quizCount').value;
   const diff = document.getElementById('quizDiff').value;
@@ -717,6 +749,10 @@ function finishQuiz(){
 }
 
 async function startAIFlashcards(){
+  if(!state.isPremium){
+    showToast('💎 Upgrade to Pro or use a promo code to unlock AI Flashcards!', 'error');
+    return;
+  }
   const topic = document.getElementById('flashTopic').value;
   const count = document.getElementById('flashCount').value;
   const container = document.getElementById('flashContainer');
