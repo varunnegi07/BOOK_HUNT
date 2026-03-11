@@ -503,7 +503,9 @@ function renderChatTab(book){
 function modalMsgHTML(role,content){
   const av=role==='user'?(state.user?state.user.name[0].toUpperCase():'U'):'🤖';
   const displayRole = role === 'assistant' ? 'ai' : role;
-  return `<div class="message ${displayRole}"><div class="msg-avatar">${av}</div><div class="msg-bubble">${content}</div></div>`;
+  // Render markdown if it's the AI/Assistant responding
+  const renderedContent = role === 'assistant' ? marked.parse(content) : content;
+  return `<div class="message ${displayRole}"><div class="msg-avatar">${av}</div><div class="msg-bubble">${renderedContent}</div></div>`;
 }
 
 async function modalSend(text){
@@ -544,9 +546,13 @@ async function callAIAPI(q, book){
   const history = state.chatHistory[book.id] || [];
   const systemPrompt = `You are the BookHunt AI Tutor. You are helping a student with the book: "${book.title}" by ${book.author}. 
   The book subject is ${book.subject}. 
-  Always be helpful, encouraging, and provide detailed explanations suitable for a student. 
-  If the student asks for a summary, provide a comprehensive one. 
-  Use Markdown for formatting (bold, lists, etc.).`;
+  
+  CRITICAL FORMATTING RULES:
+  1. Use multiple SEPARATE PARAGRAPHS to explain things clearly. Never send one big wall of text.
+  2. Use headings (###) for sections.
+  3. Use bullet points or numbered lists for key items.
+  4. Use bold for emphasis but don't overdo it.
+  5. Your responses will be rendered with Markdown, so use it to make the output look premium and readable.`;
 
   const response = await fetch(AI_CONFIG.endpoint, {
     method: 'POST',
