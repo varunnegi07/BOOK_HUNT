@@ -110,8 +110,8 @@ _supabase.auth.onAuthStateChange(async (event, session) => {
 
 // ── Navigation ──
 function navigateTo(page) {
-  // Guard: if not logged in, only allow 'auth' or 'landing' pages
-  if(!state.user && page !== 'auth' && page !== 'landing'){
+  // Guard: if not logged in, only allow 'auth', 'landing' or 'premium' pages
+  if(!state.user && page !== 'auth' && page !== 'landing' && page !== 'premium'){
     navigateTo('landing');
     return;
   }
@@ -157,6 +157,20 @@ function applyPromoCode() {
     document.getElementById('promoInput').value = '';
     // If logged in, update UI
     if(state.user) renderDashboard();
+  } else {
+    showToast('❌ Invalid promo code.', 'error');
+  }
+}
+
+function applyPromoCodeCheckout() {
+  const code = document.getElementById('checkoutPromo').value.trim().toUpperCase();
+  if (code === 'VARUN') {
+    state.isPremium = true;
+    localStorage.setItem('bh_isPremium', 'true');
+    save('bh_isPremium', true); 
+    showToast('💎 Pro Subscription Activated!', 'success');
+    document.getElementById('checkoutPromo').value = '';
+    setTimeout(() => navigateTo('dashboard'), 1500);
   } else {
     showToast('❌ Invalid promo code.', 'error');
   }

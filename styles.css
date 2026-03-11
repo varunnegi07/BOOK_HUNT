@@ -440,6 +440,27 @@ input,select,textarea{font-family:inherit;outline:none;}
 .promo-input{background:rgba(0,0,0,0.2);border:1.5px solid var(--glass-border);border-radius:16px;padding:12px 20px;color:var(--text);font-size:14px;flex:1;font-weight:700;}
 .promo-input:focus{border-color:var(--accent);}
 
+/* Premium Page */
+.premium-checkout-container{max-width:1000px;margin:120px auto 80px;padding:0 24px;}
+.premium-checkout-header{text-align:center;margin-bottom:64px;}
+.premium-checkout-header h1{font-size:clamp(32px, 5vw, 48px);font-weight:900;letter-spacing:-0.04em;margin-top:16px;}
+.checkout-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:start;}
+
+.checkout-summary{background:rgba(255,255,255,0.02);border:1.5px solid var(--glass-border);border-radius:32px;padding:40px;backdrop-filter:blur(20px);}
+.selection-card{background:var(--bg3);border:1.5px solid var(--accent);border-radius:20px;padding:24px;display:flex;justify-content:space-between;align-items:center;margin:24px 0 32px;}
+.selection-info h4{font-size:18px;font-weight:800;margin-bottom:4px;}
+.selection-info p{font-size:14px;color:var(--text3);}
+.selection-price{font-size:28px;font-weight:900;color:var(--accent);}
+
+.checkout-features{list-style:none;display:flex;flex-direction:column;gap:16px;}
+.checkout-features li{display:flex;align-items:center;gap:12px;font-weight:600;color:var(--text2);font-size:15px;}
+
+.checkout-form-card{background:var(--bg2);border:1.5px solid var(--glass-border);border-radius:32px;padding:40px;box-shadow:0 30px 60px rgba(0,0,0,0.5);}
+.mock-billing{display:flex;flex-direction:column;gap:24px;margin-top:24px;}
+.promo-input-compact{display:flex;gap:8px;}
+.promo-input-compact input{background:rgba(0,0,0,0.2);border:1.5px solid var(--glass-border);border-radius:12px;padding:10px 16px;color:var(--text);font-size:14px;flex:1;}
+.text-mini{font-size:12px;color:var(--text3);margin-top:4px;}
+
 /* ═══════════ FOOTER ═══════════ */
 .footer{padding:80px 24px;border-top:1.5px solid var(--glass-border);background:var(--bg);position:relative;overflow:hidden;}
 .footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;gap:60px;}
