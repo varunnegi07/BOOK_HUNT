@@ -35,6 +35,15 @@ const CATEGORIES = [
   ]},
   { id:'exams', name:'Competitive Exams', icon:'🏆', subs: [
     {id:'ex-jee',name:'JEE'},{id:'ex-neet',name:'NEET'},{id:'ex-upsc',name:'UPSC'},{id:'ex-cat',name:'CAT'}
+  ]},
+  { id:'skills', name:'Skills & Tech', icon:'💻', subs: [
+    {id:'sk-prog',name:'Programming'},{id:'sk-ai',name:'AI & Data Science'},{id:'sk-design',name:'Design & UI/UX'},{id:'sk-mark',name:'Marketing'}
+  ]},
+  { id:'languages', name:'Language Hub', icon:'🗣️', subs: [
+    {id:'lang-eng',name:'English Mastery'},{id:'lang-hin',name:'Hindi Sahitya'},{id:'lang-san',name:'Sanskrit'}
+  ]},
+  { id:'stateboards', name:'State Boards', icon:'🇮🇳', subs: [
+    {id:'sb-maha',name:'Maharashtra Board'},{id:'sb-up',name:'UP Board'},{id:'sb-wb',name:'West Bengal Board'}
   ]}
 ];
 
@@ -128,7 +137,17 @@ const OL_QUERIES = {
   'ex-jee':   ['IIT JEE physics','JEE advanced mathematics','JEE chemistry concepts','HC Verma physics','irodov problems','RD Sharma mathematics'],
   'ex-neet':  ['NEET biology','NEET physics','NEET chemistry','trueman biology','DC pandey physics'],
   'ex-upsc':  ['indian polity laxmikanth','indian economy ramesh singh','UPSC general studies','geography UPSC','modern india history','NCERT UPSC'],
-  'ex-cat':   ['quantitative aptitude CAT','verbal ability CAT','logical reasoning','data interpretation','MBA entrance','arun sharma CAT']
+  'ex-cat':   ['quantitative aptitude CAT','verbal ability CAT','logical reasoning','data interpretation','MBA entrance','arun sharma CAT'],
+  'sk-prog':  ['javascript programming','python crash course','java complete reference','c++ programming','node.js design patterns','react development'],
+  'sk-ai':    ['machine learning','artificial intelligence','data science handbook','deep learning','neural networks','natural language processing'],
+  'sk-design':['graphic design principles','UI UX design','web design','adobe photoshop','figma design','typography'],
+  'sk-mark':  ['digital marketing','social media marketing','brand management','advertising strategy','copywriting'],
+  'lang-eng': ['english grammar wren martin','oxford english dictionary','vocabulary building','english literature classics'],
+  'lang-hin': ['hindi literature','premchand godan','hindi grammar','kabir ke dohe','mahavir prasad dwivedi'],
+  'lang-san': ['sanskrit grammar','panini ashtadhyayi','bhagavad gita sanskrit','sanskrit hitopadesha'],
+  'sb-maha':  ['maharashtra state board textbooks','SSC HSC maharashtra','maharashtra board science'],
+  'sb-up':    ['UP board textbooks','uttar pradesh board math','UP board science hindi'],
+  'sb-wb':    ['west bengal board textbooks','madhyamik books','higher secondary west bengal']
 };
 
 // Gradient palette for API books
@@ -139,4 +158,4 @@ const GRADIENTS = [
   'linear-gradient(135deg,#00cec9,#81ecec)','linear-gradient(135deg,#e17055,#fab1a0)',
   'linear-gradient(135deg,#a29bfe,#dfe6e9)','linear-gradient(135deg,#fd79a8,#fdcb6e)'
 ];
-const SUBJ_EMOJI = {'Computer Science':'💻','Physics':'⚛️','Mathematics':'📐','Chemistry':'🧪','Literature':'📖','Business':'📊','Biology':'🧬','History':'📜','Engineering':'⚙️','Medical':'🏥','Commerce':'💰','Arts':'🎨','General':'📚'};
+const SUBJ_EMOJI = {'Computer Science':'💻','Physics':'⚛️','Mathematics':'📐','Chemistry':'🧪','Literature':'📖','Business':'📊','Biology':'🧬','History':'📜','Engineering':'⚙️','Medical':'🏥','Commerce':'💰','Arts':'🎨','General':'📚','Programming':'👨‍💻','AI':'🤖','Design':'🎨','Marketing':'📈','English':'🇬🇧','Hindi':'🇮🇳','Sanskrit':'📜'};
