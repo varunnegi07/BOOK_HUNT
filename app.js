@@ -504,12 +504,17 @@ function closeModal(){document.getElementById('bookModal').classList.remove('sho
 function closeModalBg(e){if(e.target.id==='bookModal')closeModal();}
 
 function switchModalTab(tab,btn){
+  if((tab==='quiz' || tab==='flash') && !state.isPremium){
+    showToast('💎 BookHunt Pro required for this feature!', 'info');
+    closeModal();
+    navigateTo('premium');
+    return;
+  }
   document.querySelectorAll('.mtab').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   const tc=document.getElementById('modalTabContent');
   if(tab==='info')tc.innerHTML=renderInfoTab(modalBook);
   else if(tab==='summary')tc.innerHTML=renderSummaryTab(modalBook);
-  else if(tab==='chat')tc.innerHTML=renderChatTab(modalBook);
   else if(tab==='quiz')tc.innerHTML=renderQuizTab(modalBook);
   else if(tab==='flash')tc.innerHTML=renderFlashcardsTab(modalBook);
 }
@@ -541,7 +546,9 @@ function renderSummaryTab(book){
 // ── Chat Studio ──
 function enterStudioChat(){
   if(!state.isPremium){
-    showToast('💎 BookHunt Pro required for AI Chat Studio!', 'error');
+    showToast('💎 BookHunt Pro required for AI Chat Studio!', 'info');
+    closeModal();
+    navigateTo('premium');
     return;
   }
   if(!modalBook)return;
@@ -668,7 +675,9 @@ function renderFlashcardsTab(book){
 
 async function startAIQuiz(){
   if(!state.isPremium){
-    showToast('💎 Upgrade to Pro or use a promo code to unlock AI Quizzes!', 'error');
+    showToast('💎 Upgrade to Pro to unlock AI Quizzes!', 'info');
+    closeModal();
+    navigateTo('premium');
     return;
   }
   const scope = document.getElementById('quizScope').value;
@@ -764,7 +773,9 @@ function finishQuiz(){
 
 async function startAIFlashcards(){
   if(!state.isPremium){
-    showToast('💎 Upgrade to Pro or use a promo code to unlock AI Flashcards!', 'error');
+    showToast('💎 Upgrade to Pro to unlock AI Flashcards!', 'info');
+    closeModal();
+    navigateTo('premium');
     return;
   }
   const topic = document.getElementById('flashTopic').value;
