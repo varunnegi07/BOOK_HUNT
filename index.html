@@ -214,6 +214,37 @@
         </div>
     </section>
 
+    <!-- ═══════════ PAGE: CHAT STUDIO (PREMIUM) ═══════════ -->
+    <section id="page-studio" class="page">
+        <div class="studio-container">
+            <div class="studio-sidebar">
+                <button class="btn-ghost" onclick="closeStudio()">← Dashboard</button>
+                <div class="studio-book-info">
+                    <div class="studio-cover" id="studioCover"></div>
+                    <h2 id="studioTitle">Book Title</h2>
+                    <p id="studioAuthor" class="text-muted">Author Name</p>
+                </div>
+                <div class="studio-shortcuts">
+                    <label>QUICK COMMANDS</label>
+                    <button class="btn-outline w-full" onclick="modalSend('Explain the main concept of this book')">💡 Main Concept</button>
+                    <button class="btn-outline w-full" onclick="modalSend('How will this book help me in exams?')">🎓 Exam Importance</button>
+                    <button class="btn-outline w-full" onclick="modalSend('Give me a 5-minute summary')">⚡ 5Min Summary</button>
+                </div>
+            </div>
+            <div class="studio-main">
+                <div class="studio-chat" id="studioChat">
+                    <div class="modal-chat-msgs" id="studioMsgs"></div>
+                    <div class="studio-input-area">
+                        <div class="modal-chat-input">
+                            <input type="text" id="studioInput" placeholder="Ask your AI Tutor about this book..." onkeydown="if(event.key==='Enter')sendStudioMsg()">
+                            <button class="chat-send-btn" onclick="sendStudioMsg()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ═══════════ BOOK MODAL ═══════════ -->
     <div class="modal-overlay" id="bookModal" onclick="closeModalBg(event)">
         <div class="modal-content" id="modalBody"></div>

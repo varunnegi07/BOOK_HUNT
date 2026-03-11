@@ -110,6 +110,10 @@ function navigateTo(page) {
     return;
   }
   
+  // Hide navbar/footer in Studio or Reader for a clean experience
+  const isImmersive = page==='studio'||page==='reader';
+  document.getElementById('navbar').style.display = isImmersive ? 'none' : 'flex';
+
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const el=document.getElementById('page-'+page);
   if(el){el.classList.add('active');state.currentPage=page;}
@@ -440,6 +444,7 @@ function openBookModal(id){
         </div>
         <div class="modal-actions">
           <button class="btn-primary" onclick="readBook()">📖 Read Book</button>
+          <button class="btn-outline" onclick="enterStudioChat()">🤖 AI Chat Studio</button>
           <button class="btn-outline" onclick="toggleBookmark('${id}')">${bm?'⭐ Bookmarked':'☆ Bookmark'}</button>
           ${book.code?`<button class="btn-outline" onclick="downloadBook()">⬇ Download</button>`:''}
         </div>
@@ -448,7 +453,6 @@ function openBookModal(id){
     <div class="modal-tabs">
       <button class="mtab active" onclick="switchModalTab('info',this)">📋 Info</button>
       <button class="mtab" onclick="switchModalTab('summary',this)">📝 Summary</button>
-      <button class="mtab" onclick="switchModalTab('chat',this)">💬 Chat</button>
       <button class="mtab" onclick="switchModalTab('quiz',this)">🏆 Quiz</button>
       <button class="mtab" onclick="switchModalTab('flash',this)">🎴 Flashcards</button>
     </div>
@@ -496,20 +500,59 @@ function renderSummaryTab(book){
   <div class="tab-section"><h3>📋 Study Tips</h3><ul><li>Read each chapter thoroughly before moving to exercises</li><li>Make short notes of key formulas and concepts</li><li>Practice previous year questions for better preparation</li><li>Use the AI chat for instant doubt resolution</li></ul></div>`;
 }
 
-function renderChatTab(book){
-  const history=state.chatHistory[book.id]||[];
-  return `<div class="modal-chat">
-    <div class="modal-chat-msgs" id="modalChatMsgs">
-      ${history.length===0?`<div class="chat-welcome-mini"><p>🤖 Ask me anything about <strong>${book.title}</strong></p>
-      <div class="chat-suggestions"><button class="suggestion-chip" onclick="modalSend('Summarize this book')">📝 Summarize</button><button class="suggestion-chip" onclick="modalSend('Key concepts')">🔑 Key concepts</button><button class="suggestion-chip" onclick="modalSend('Explain Chapter 1')">📖 Ch 1</button></div></div>`
-      :history.map(m=>modalMsgHTML(m.role,m.content)).join('')}
-    </div>
-    <div class="modal-chat-input">
-      <input type="text" id="modalChatInput" placeholder="Ask about this book..." onkeydown="if(event.key==='Enter')modalSend()">
-      <button class="chat-send-btn" onclick="modalSend()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    </div>
-  </div>`;
+// ── Chat Studio ──
+function enterStudioChat(){
+  if(!modalBook) return;
+  closeModal();
+  navigateTo('studio');
+  
+  const book = modalBook;
+  document.getElementById('studioTitle').textContent = book.title;
+  document.getElementById('studioAuthor').textContent = book.author;
+  const cv=coverUrl(book,'L');
+  document.getElementById('studioCover').innerHTML = cv ? `<img src="${cv}">` : `<div style="background:${book.gradient};width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:40px;">${book.emoji||'📚'}</div>`;
+  
+  const studioMsgs = document.getElementById('studioMsgs');
+  const history = state.chatHistory[book.id] || [];
+  studioMsgs.innerHTML = history.length===0 
+    ? `<div class="chat-welcome-mini" style="margin-top:100px;"><div class="feature-icon-wrap" style="margin:0 auto 20px; width:60px; height:60px;"><span style="font-size:28px">🤖</span></div><h2>Welcome to Focus Studio</h2><p>I am your AI tutor for <strong>${book.title}</strong>. Ask me anything about the concepts, formulas, or chapters.</p></div>`
+    : history.map(m=>modalMsgHTML(m.role,m.content)).join('');
+  
+  studioMsgs.scrollTop = studioMsgs.scrollHeight;
 }
+
+function closeStudio(){ navigateTo('dashboard'); }
+
+async function sendStudioMsg(text){
+  const input=document.getElementById('studioInput');
+  const msg=text||(input?input.value.trim():'');
+  if(!msg||!modalBook)return;
+  if(input)input.value='';
+  
+  const msgs=document.getElementById('studioMsgs');
+  const welcome=msgs.querySelector('.chat-welcome-mini');
+  if(welcome)welcome.remove();
+
+  if(!state.chatHistory[modalBook.id])state.chatHistory[modalBook.id]=[];
+  state.chatHistory[modalBook.id].push({role:'user',content:msg});
+  state.stats.queries++;save('bh_stats',state.stats);
+
+  msgs.innerHTML+=modalMsgHTML('user',msg);
+  msgs.innerHTML+=`<div class="message ai" id="studioTyping"><div class="msg-avatar">🤖</div><div class="msg-bubble"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div></div>`;
+  msgs.scrollTop=msgs.scrollHeight;
+
+  try {
+    const resp = await callAIAPI(msg, modalBook);
+    state.chatHistory[modalBook.id].push({role:'assistant',content:resp});
+    const t=document.getElementById('studioTyping');if(t)t.remove();
+    msgs.innerHTML+=modalMsgHTML('assistant',resp);
+    msgs.scrollTop=msgs.scrollHeight;
+  } catch (err) {
+    const t=document.getElementById('studioTyping');if(t)t.remove();
+    msgs.innerHTML+=modalMsgHTML('assistant', `⚠️ Error: ${err.message}`);
+  }
+}
+
 
 // ── Quiz & Flashcard Shared Logic ──
 let activeQuiz = null;
