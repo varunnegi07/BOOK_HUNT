@@ -1,0 +1,266 @@
+﻿📘 Product Requirements Document (PRD)
+Product Name: Book Hunt
+1. Product Overview
+Book Hunt is an AI-powered educational platform designed for school and college students to easily find, study, and interact with academic books relevant to their courses.
+The platform helps students:
+* Discover books related to their school class or college course
+* Summarize books
+* Ask questions from the book
+* Learn through an AI chatbot trained on the book’s content
+The goal is to make studying simpler, interactive, and personalized.
+________________
+
+
+2. Problem Statement
+Students often face these problems:
+* Hard to find the right books for their course
+* Books are too long and difficult to understand
+* No quick way to ask questions from the book
+* Searching information in a book is time consuming
+Book Hunt solves this by providing:
+✔ Personalized book recommendations
+✔ AI-powered book assistant
+✔ Instant summaries
+✔ Interactive learning
+________________
+
+
+3. Target Users
+Primary Users
+* School Students (Class 6–12)
+* College Students (Undergraduate)
+Secondary Users
+* Competitive exam students
+* Teachers recommending books
+________________
+
+
+4. Product Goals
+Short-Term Goals
+* Help students easily find books
+* Provide AI summaries
+* Allow chat with the book
+Long-Term Goals
+* Become a central academic book hub
+* Provide AI tutors
+* Integrate notes, quizzes, and practice questions
+________________
+
+
+5. Core Features
+5.1 User Signup & Login
+Users can create an account using:
+* Google Login
+* Email + Password
+Signup Form Fields
+* Name
+* Age
+* Institution Name
+* School / College selection
+* Class or Course
+* Year/Semester
+________________
+
+
+6. User Type Selection
+After signup users must choose:
+Option 1: School
+Fields:
+* School Name
+* Class
+* Board (CBSE / ICSE / State)
+Option 2: College
+Fields:
+* College Name
+* Course (B.Tech, BBA, BSc etc.)
+* Branch / Major
+* Year/Semester
+This helps the AI recommend relevant books.
+________________
+
+
+7. Preference Page
+After registration, users go to a Preference Selection Page.
+Users choose:
+Preferred book types:
+* Textbooks
+* Reference Books
+* Novels
+* Academic Research
+* Study Guides
+* Exam Preparation
+Subjects of interest:
+* Mathematics
+* Computer Science
+* Physics
+* Business
+* Literature
+* etc.
+________________
+
+
+8. AI Book Recommendation System
+The AI system recommends books based on:
+* User class/course
+* Subjects
+* Institution
+* Preferences
+Example:
+If user is:
+B.Tech Computer Science Year 1
+Recommended books:
+* Programming fundamentals
+* Discrete mathematics
+* Engineering physics
+________________
+
+
+9. Book Library
+Users can browse:
+* Recommended Books
+* Popular Books
+* Trending Books
+* Course Books
+Each book page includes:
+* Title
+* Author
+* Description
+* Table of contents
+* Book preview
+________________
+
+
+10. AI Book Assistant (Core Feature)
+Every book will have an AI chatbot trained on that book.
+Users can interact with it.
+Features
+Students can:
+✔ Ask questions from the book
+✔ Request summaries
+✔ Explain concepts
+✔ Simplify difficult topics
+Example:
+User asks:
+Explain chapter 2 in simple terms.
+AI Response:
+Provides simplified explanation.
+________________
+
+
+11. Book Interaction Features
+Users can:
+1️⃣ Summarize the Book
+* Full book summary
+* Chapter summaries
+2️⃣ Ask Questions
+Example:
+* What is Newton’s second law?
+* Explain this paragraph
+3️⃣ Highlight Concepts
+AI can highlight important parts.
+4️⃣ Quick Revision
+Generate short revision notes.
+________________
+
+
+12. Dashboard
+After login users see:
+* Recommended books
+* Continue reading
+* Saved books
+* Recently asked questions
+* Study progress
+________________
+
+
+13. Search Feature
+Users can search books by:
+* Book name
+* Author
+* Subject
+* Course
+* Topic
+________________
+
+
+14. System Architecture (Basic)
+Frontend
+* React / Next.js
+* Tailwind CSS
+Backend
+* Node.js / Express
+Database
+* MongoDB / PostgreSQL
+AI System
+* OpenAI API / LLM
+* Vector database for book knowledge
+Authentication
+* Firebase Auth / OAuth (Google Login)
+________________
+
+
+15. Data Flow
+1. User signs up
+2. User selects school/college
+3. User enters course/class
+4. AI generates book recommendations
+5. User selects book
+6. Book content processed by AI
+7. User interacts with AI chatbot
+________________
+
+
+16. Monetization (Future)
+Possible revenue models:
+Freemium Model
+Free:
+* Basic book access
+* Limited AI questions
+Premium:
+* Unlimited AI chats
+* Deep summaries
+* Exam preparation tools
+Partnerships
+* Publishers
+* Universities
+________________
+
+
+17. Success Metrics
+To measure success:
+* Number of registered users
+* Books accessed per user
+* AI queries per day
+* Daily active users
+* Time spent studying
+________________
+
+
+18. Future Features
+* AI generated quizzes
+* AI flashcards
+* Note taking
+* Study groups
+* Book discussion forums
+* Voice AI tutor
+________________
+
+
+19. Risks
+Potential challenges:
+* Copyright issues with books
+* AI hallucination errors
+* Large data storage
+* Scaling AI costs
+________________
+
+
+20. MVP (Minimum Viable Product)
+The first version should include only:
+✔ Signup/Login
+✔ School/College selection
+✔ Course input
+✔ AI book recommendation
+✔ Book page
+✔ AI chatbot for the book
+Everything else can be added later.

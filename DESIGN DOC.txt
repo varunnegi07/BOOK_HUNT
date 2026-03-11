@@ -1,0 +1,368 @@
+﻿📘 Book Hunt – Landing Page Design Document
+(Inspired by the design structure in the provided image)
+________________
+
+
+1. Page Overview
+The landing page is designed to:
+* Clearly explain the product
+* Build trust with users
+* Show key features
+* Push users to sign up or start using the platform
+The design style should be:
+* Dark modern UI
+* Minimalistic
+* Soft gradients
+* Rounded cards
+* Floating UI components
+________________
+
+
+2. Layout Structure
+The page should be divided into 5 main sections:
+1. Navigation Bar
+2. Hero Section
+3. Trust Badge / Social Proof
+4. Feature Cards
+5. CTA Section
+
+
+Layout hierarchy:
+-------------------------------------------------
+Navigation Bar
+-------------------------------------------------
+Hero Section (Main headline + CTA)
+-------------------------------------------------
+Trust Badge
+-------------------------------------------------
+Feature Cards (3 cards)
+-------------------------------------------------
+CTA Section
+-------------------------------------------------
+Footer
+-------------------------------------------------
+
+
+________________
+
+
+3. Navigation Bar
+Position
+Top of the page (fixed)
+Layout
+LOGO      Features    Books    AI Tutor    Pricing        Login   Sign Up
+
+
+Components
+Left:
+* Book Hunt Logo
+Center:
+* Features
+* Books
+* AI Tutor
+* Leaderboard (optional)
+Right:
+* Login
+* Sign Up button (primary CTA)
+Style
+Background:
+rgba(0,0,0,0.6)
+backdrop-blur
+
+
+Buttons:
+* Rounded pill style
+* Soft hover glow
+________________
+
+
+4. Hero Section (Main Section)
+Purpose
+Explain the value of the platform immediately.
+Layout
+Center aligned.
+     Trusted by 10,000+ Students
+
+
+   Study Smarter with AI-Powered Books
+
+
+Find the books you need, summarize chapters,
+and ask questions directly from the book.
+
+
+           [ Start Learning ]
+
+
+________________
+
+
+Hero Components
+1️⃣ Trust Badge
+Example:
+⭐ 4.9 Trusted by 10,000+ Students
+
+
+Style:
+* Small pill
+* Dark background
+* Soft glow border
+________________
+
+
+2️⃣ Main Headline
+Large typography.
+Example:
+Study Smarter with
+AI-Powered Books
+
+
+Font Size:
+60–72px
+Font weight:
+Bold
+________________
+
+
+3️⃣ Subheading
+Find academic books, get instant summaries,
+and learn with an AI tutor trained on the book.
+
+
+Font size:
+18–20px
+Opacity:
+70%
+________________
+
+
+4️⃣ Primary CTA Button
+Start Learning
+
+
+Style:
+* Green gradient
+* Rounded pill
+* Glow hover effect
+________________
+
+
+5. Floating Feature Cards
+Below the hero text there are 3 floating cards similar to the design in your image.
+________________
+
+
+Card 1 — Study Progress
+Left side.
+Purpose:
+Show learning progress.
+Example UI:
+Complete Chapter Challenge
+
+
+Progress
+██████████░░░░░░
+
+
+Completed: 7 / 10 chapters
+
+
+Components:
+* Progress bar
+* Chapter count
+* Title
+________________
+
+
+Card 2 — Student Achievement
+Center card (largest).
+Example:
+Rahul Sharma 🇮🇳
+
+
+Study Milestone
+
+
+Completed 12 Books
+
+
+Course: Computer Science
+Understanding Score: 82%
+
+
+Style:
+* Light gradient background
+* Rounded corners
+* Drop shadow
+________________
+
+
+Card 3 — AI Tutor Activity
+Right side.
+Example:
+AI Tutor Answered
+
+
+"Explain Newton's Law"
+
+
+Response Generated
+2 minutes ago
+
+
+Stacked cards style.
+________________
+
+
+6. Design Style
+Color Palette
+Primary Background
+#0A0A0A
+
+
+Secondary Background
+#111111
+
+
+Accent Gradient
+#00E6A8 → #00B894
+
+
+Card Background
+#141414
+
+
+Text Colors
+Primary text
+#FFFFFF
+
+
+Secondary text
+#A0A0A0
+
+
+________________
+
+
+7. Typography
+Font family
+Inter
+
+
+or
+Poppins
+
+
+Font hierarchy:
+Type
+	Size
+	Hero Heading
+	64px
+	Subheading
+	20px
+	Section Title
+	36px
+	Body
+	16px
+	________________
+
+
+8. Button Design
+Primary Button
+Background: Green gradient
+Padding: 14px 28px
+Border-radius: 30px
+Font-weight: 600
+
+
+Hover effect
+* Slight scale
+* Glow shadow
+________________
+
+
+9. Card Design
+Cards should have:
+border-radius: 18px
+padding: 24px
+background: #141414
+box-shadow: soft glow
+
+
+Optional glass effect:
+backdrop-filter: blur(20px)
+
+
+________________
+
+
+10. Animations
+Add subtle animations.
+Hero:
+* Fade in
+* Slight upward motion
+Cards:
+* Floating effect
+* Hover lift
+Buttons:
+* Scale 1.05 on hover
+________________
+
+
+11. Responsive Design
+Mobile layout:
+Hero text stacked.
+Cards become:
+Card 1
+Card 2
+Card 3
+
+
+Navigation:
+Hamburger menu.
+________________
+
+
+12. Key Components (Frontend)
+For development use:
+Frontend stack:
+* React / Next.js
+* TailwindCSS
+* Framer Motion
+Components required:
+Navbar
+HeroSection
+TrustBadge
+FeatureCard
+ProgressCard
+AITutorCard
+CTAButton
+Footer
+
+
+________________
+
+
+13. Example Component Structure
+/components
+
+
+Navbar.jsx
+Hero.jsx
+TrustBadge.jsx
+FeatureCard.jsx
+ProgressCard.jsx
+TutorCard.jsx
+Footer.jsx
+
+
+________________
+
+
+14. UX Goals
+The design should make users feel:
+✔ The platform is modern
+✔ It is AI powered
+✔ It is built for students
+✔ Learning is simple and interactive
+________________
