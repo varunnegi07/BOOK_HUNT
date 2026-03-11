@@ -78,10 +78,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     state.user = { name: user.user_metadata.full_name || user.email.split('@')[0], email: user.email };
     await fetchFromSupabase(); // Load data from DB
     updateUIForLoggedIn();
-    if(state.currentPage === 'home') navigateTo('dashboard');
+    navigateTo('dashboard');
   } else {
     state.user = null;
-    navigateTo('home');
+    navigateTo('auth');
   }
 });
 
@@ -94,16 +94,22 @@ _supabase.auth.onAuthStateChange(async (event, session) => {
     navigateTo('dashboard');
   } else if (event === 'SIGNED_OUT') {
     state.user = null;
-    navigateTo('home');
+    navigateTo('auth');
     document.getElementById('btnLogin').style.display='';
     document.getElementById('btnSignup').style.display='';
     document.getElementById('userAvatar').style.display='none';
+    document.getElementById('navLinks').style.display='none';
   }
 });
 
 // ── Navigation ──
 function navigateTo(page) {
-  if((page==='dashboard'||page==='studio'||page==='reader') && !state.user){navigateTo('auth');return;}
+  // Guard: if not logged in, only allow 'auth' page
+  if(!state.user && page !== 'auth'){
+    navigateTo('auth');
+    return;
+  }
+  
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const el=document.getElementById('page-'+page);
   if(el){el.classList.add('active');state.currentPage=page;}
@@ -174,6 +180,7 @@ async function logout(){
 function updateUIForLoggedIn(){
   document.getElementById('btnLogin').style.display='none';
   document.getElementById('btnSignup').style.display='none';
+  document.getElementById('navLinks').style.display='flex';
   const a=document.getElementById('userAvatar');a.style.display='flex';
   document.getElementById('avatarLetter').textContent=state.user.name[0].toUpperCase();
   document.getElementById('dropdownName').textContent=state.user.name;
