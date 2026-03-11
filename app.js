@@ -449,6 +449,8 @@ function openBookModal(id){
       <button class="mtab active" onclick="switchModalTab('info',this)">📋 Info</button>
       <button class="mtab" onclick="switchModalTab('summary',this)">📝 Summary</button>
       <button class="mtab" onclick="switchModalTab('chat',this)">💬 Chat</button>
+      <button class="mtab" onclick="switchModalTab('quiz',this)">🏆 Quiz</button>
+      <button class="mtab" onclick="switchModalTab('flash',this)">🎴 Flashcards</button>
     </div>
     <div class="modal-tab-content" id="modalTabContent">
       ${renderInfoTab(book)}
@@ -466,6 +468,8 @@ function switchModalTab(tab,btn){
   if(tab==='info')tc.innerHTML=renderInfoTab(modalBook);
   else if(tab==='summary')tc.innerHTML=renderSummaryTab(modalBook);
   else if(tab==='chat')tc.innerHTML=renderChatTab(modalBook);
+  else if(tab==='quiz')tc.innerHTML=renderQuizTab(modalBook);
+  else if(tab==='flash')tc.innerHTML=renderFlashcardsTab(modalBook);
 }
 
 function renderInfoTab(book){
@@ -507,6 +511,204 @@ function renderChatTab(book){
   </div>`;
 }
 
+// ── Quiz & Flashcard Shared Logic ──
+let activeQuiz = null;
+let activeFlashcards = null;
+let currentFlashIdx = 0;
+
+function renderQuizTab(book){
+  return `<div class="quiz-container" id="quizContainer">
+    <div class="tool-setup-card">
+      <div class="feature-icon-wrap" style="margin:0 auto 16px; width:50px; height:50px;"><span style="font-size:24px">🏆</span></div>
+      <h3>AI Quiz Generator</h3>
+      <p>Test your knowledge on <strong>${book.title}</strong></p>
+      
+      <div class="config-grid">
+        <div class="config-item">
+          <label>Scope</label>
+          <select id="quizScope">
+            <option value="whole book">Whole Book</option>
+            ${(book.chapters||[]).map((c,i)=>`<option value="Chapter ${i+1}: ${c}">Chapter ${i+1}</option>`).join('')}
+          </select>
+        </div>
+        <div class="config-item">
+          <label>Questions</label>
+          <input type="number" id="quizCount" value="5" min="3" max="15">
+        </div>
+        <div class="config-item">
+          <label>Difficulty</label>
+          <select id="quizDiff">
+            <option value="Easy">Easy</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="Hard">Hard (JEE/NEET Level)</option>
+          </select>
+        </div>
+        <div class="config-item">
+          <label>Time Limit</label>
+          <select id="quizTime">
+            <option value="5">5 Min</option>
+            <option value="10" selected>10 Min</option>
+            <option value="20">20 Min</option>
+          </select>
+        </div>
+      </div>
+      
+      <button class="btn-primary w-full" onclick="startAIQuiz()">Generate Quiz</button>
+    </div>
+  </div>`;
+}
+
+function renderFlashcardsTab(book){
+  return `<div class="flashcards-container" id="flashContainer">
+    <div class="tool-setup-card">
+      <div class="feature-icon-wrap" style="margin:0 auto 16px; width:50px; height:50px;"><span style="font-size:24px">🎴</span></div>
+      <h3>AI Flashcard Factory</h3>
+      <p>Memorize key terms from <strong>${book.title}</strong></p>
+      
+      <div class="config-grid">
+        <div class="config-item">
+          <label>Topic / Chapter</label>
+          <input type="text" id="flashTopic" placeholder="e.g. Important formulas" value="Key concepts">
+        </div>
+        <div class="config-item">
+          <label>Card Count</label>
+          <input type="number" id="flashCount" value="8" min="5" max="20">
+        </div>
+      </div>
+      
+      <button class="btn-primary w-full" onclick="startAIFlashcards()">Create Flashcards</button>
+    </div>
+  </div>`;
+}
+
+async function startAIQuiz(){
+  const scope = document.getElementById('quizScope').value;
+  const count = document.getElementById('quizCount').value;
+  const diff = document.getElementById('quizDiff').value;
+  const time = document.getElementById('quizTime').value;
+  
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = `<div class="loading-state"><div class="searching-spinner large"></div><p>AI is generating custom questions for you...</p></div>`;
+  
+  try {
+    const prompt = `Generate a Multiple Choice Quiz (MCQ) for the book "${modalBook.title}". 
+    Scope: ${scope}. Number of questions: ${count}. Difficulty: ${diff}.
+    Format: Return ONLY a valid JSON object with a "questions" key that is an array. Each object in that array must have: 
+    "question" (string), "options" (array of 4 strings), and "correctIndex" (integer 0-3).`;
+    
+    const resp = await callAIAPI(prompt, modalBook, true);
+    const questions = JSON.parse(resp).questions;
+    
+    activeQuiz = {
+      questions,
+      currentIndex: 0,
+      score: 0,
+      timeLeft: parseInt(time) * 60,
+      timer: null
+    };
+    
+    renderCurrentQuestion();
+    startQuizTimer();
+  } catch (err) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">⚠️</div><h3>Generation Failed</h3><p>${err.message}</p></div>`;
+  }
+}
+
+function startQuizTimer(){
+  activeQuiz.timer = setInterval(() => {
+    activeQuiz.timeLeft--;
+    const el = document.getElementById('quizTimer');
+    if(el) {
+      const m = Math.floor(activeQuiz.timeLeft / 60);
+      const s = activeQuiz.timeLeft % 60;
+      el.textContent = `${m}:${s.toString().padStart(2,'0')}`;
+    }
+    if(activeQuiz.timeLeft <= 0) finishQuiz();
+  }, 1000);
+}
+
+function renderCurrentQuestion(){
+  const q = activeQuiz.questions[activeQuiz.currentIndex];
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = `
+    <div class="quiz-active">
+      <div class="quiz-header">
+        <div class="quiz-progress">Q${activeQuiz.currentIndex + 1}/${activeQuiz.questions.length}</div>
+        <div class="quiz-timer" id="quizTimer">--:--</div>
+      </div>
+      <div class="question-card">
+        <div class="question-text">${q.question}</div>
+        <div class="options-grid">
+          ${q.options.map((opt, i) => `<button class="option-btn" onclick="selectQuizOption(${i})"><span class="opt-label">${String.fromCharCode(65+i)}</span> ${opt}</button>`).join('')}
+        </div>
+      </div>
+    </div>`;
+}
+
+function selectQuizOption(idx){
+  const q = activeQuiz.questions[activeQuiz.currentIndex];
+  const btns = document.querySelectorAll('.option-btn');
+  btns.forEach((b, i) => {
+    b.onclick = null;
+    if(i === q.correctIndex) b.classList.add('correct');
+    else if(i === idx) b.classList.add('wrong');
+  });
+  if(idx === q.correctIndex) activeQuiz.score++;
+  setTimeout(() => {
+    activeQuiz.currentIndex++;
+    if(activeQuiz.currentIndex < activeQuiz.questions.length) renderCurrentQuestion();
+    else finishQuiz();
+  }, 1500);
+}
+
+function finishQuiz(){
+  clearInterval(activeQuiz.timer);
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = `
+    <div class="quiz-results">
+      <div class="result-score">${activeQuiz.score}/${activeQuiz.questions.length}</div>
+      <p class="result-text">${activeQuiz.score === activeQuiz.questions.length ? 'Perfect!' : 'Great effort!'}</p>
+      <button class="btn-primary" onclick="switchModalTab('quiz', document.querySelector('.mtab.active'))">Restart</button>
+    </div>`;
+  addActivity('🏆', `Quiz Score: ${activeQuiz.score}/${activeQuiz.questions.length}`);
+}
+
+async function startAIFlashcards(){
+  const topic = document.getElementById('flashTopic').value;
+  const count = document.getElementById('flashCount').value;
+  const container = document.getElementById('flashContainer');
+  container.innerHTML = `<div class="loading-state"><div class="searching-spinner large"></div><p>AI is crafting your flashcards...</p></div>`;
+  try {
+    const prompt = `Generate educational flashcards for "${modalBook.title}". Topic: ${topic}. Count: ${count}. 
+    Format: Return ONLY a valid JSON object with a "cards" key that is an array. Each object in the array must have "front" and "back" strings.`;
+    const resp = await callAIAPI(prompt, modalBook, true);
+    activeFlashcards = JSON.parse(resp).cards;
+    currentFlashIdx = 0;
+    renderFlashcard();
+  } catch (err) {
+    container.innerHTML = `<div class="empty-state"><p>Error: ${err.message}</p></div>`;
+  }
+}
+
+function renderFlashcard(){
+  const card = activeFlashcards[currentFlashIdx];
+  const container = document.getElementById('flashContainer');
+  container.innerHTML = `
+    <div class="flashcards-view">
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="card-face card-front"><div class="card-label">Front</div>${card.front}</div>
+        <div class="card-face card-back"><div class="card-label">Back</div>${card.back}</div>
+      </div>
+      <div class="card-nav">
+        <button class="nav-btn" onclick="prevCard()" ${currentFlashIdx===0?'disabled':''}>←</button>
+        <button class="nav-btn" onclick="nextCard()" ${currentFlashIdx===activeFlashcards.length-1?'disabled':''}>→</button>
+      </div>
+    </div>`;
+}
+
+function nextCard(){ currentFlashIdx++; renderFlashcard(); }
+function prevCard(){ currentFlashIdx--; renderFlashcard(); }
+
 function modalMsgHTML(role,content){
   const av=role==='user'?(state.user?state.user.name[0].toUpperCase():'U'):'🤖';
   const displayRole = role === 'assistant' ? 'ai' : role;
@@ -547,11 +749,13 @@ async function modalSend(text){
   }
 }
 
-async function callAIAPI(q, book){
+async function callAIAPI(q, book, jsonMode = false){
   if(AI_CONFIG.apiKey === 'YOUR_API_KEY_HERE') throw new Error("API Key missing");
 
   const history = state.chatHistory[book.id] || [];
-  const systemPrompt = `You are the BookHunt AI Tutor. You are helping a student with the book: "${book.title}" by ${book.author}. 
+  const systemPrompt = jsonMode 
+    ? `You are an educational data generator. Always return strictly valid JSON ONLY. No prose, no markdown code blocks.`
+    : `You are the BookHunt AI Tutor. You are helping a student with the book: "${book.title}" by ${book.author}. 
   The book subject is ${book.subject}. 
   
   CRITICAL FORMATTING RULES:
@@ -571,8 +775,10 @@ async function callAIAPI(q, book){
       model: AI_CONFIG.model,
       messages: [
         { role: 'system', content: systemPrompt },
-        ...history.slice(-6) // Send last 6 messages for context
+        ...(!jsonMode ? history.slice(-6) : []), // No history in JSON mode
+        { role: 'user', content: q }
       ],
+      response_format: jsonMode ? { type: "json_object" } : undefined,
       temperature: 0.7
     })
   });
