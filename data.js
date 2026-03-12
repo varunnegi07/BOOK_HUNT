@@ -1,8 +1,8 @@
 const NCERT = {
   'cbse-6': [
-    {id:'n601',title:'Mathematics',author:'NCERT',code:'femh1',ch:14,subject:'Mathematics',emoji:'📐',gradient:'linear-gradient(135deg,#6c5ce7,#a29bfe)',
+    {id:'n601',title:'Mathematics',author:'NCERT',code:'femh1',ch:14,subject:'Mathematics',emoji:'📐',gradient:'linear-gradient(135deg,#6c5ce7,#a29bfe)',pdfUrl:'https://ncert.nic.in/textbook/pdf/kemathe06.pdf',
      chapters:['Knowing Our Numbers','Whole Numbers','Playing with Numbers','Basic Geometrical Ideas','Understanding Elementary Shapes','Integers','Fractions','Decimals','Data Handling','Mensuration','Algebra','Ratio and Proportion','Symmetry','Practical Geometry']},
-    {id:'n602',title:'Science',author:'NCERT',code:'fesc1',ch:16,subject:'Science',emoji:'🔬',gradient:'linear-gradient(135deg,#00b894,#00cec9)',
+    {id:'n602',title:'Science',author:'NCERT',code:'fesc1',ch:16,subject:'Science',emoji:'🔬',gradient:'linear-gradient(135deg,#00b894,#00cec9)',pdfUrl:'https://ncert.nic.in/textbook/pdf/kesc106.pdf',
      chapters:['Food: Where Does It Come From?','Components of Food','Fibre to Fabric','Sorting Materials into Groups','Separation of Substances','Changes Around Us','Getting to Know Plants','Body Movements','The Living Organisms','Motion and Measurement','Light, Shadows and Reflections','Electricity and Circuits','Fun with Magnets','Water','Air Around Us','Garbage In, Garbage Out']}
   ],
   'cbse-7': [
@@ -141,6 +141,63 @@ const OL_QUERIES = {
   'sb-wb':    ['west bengal board textbooks','madhyamik books','higher secondary west bengal']
 };
 
+const CLASSICS = {
+  'classic-fiction': [
+    {id:'c101',title:'To Kill a Mockingbird',author:'Harper Lee',code:'kmb1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#a29bfe,#dfe6e9)',pdfUrl:'https://archive.org/download/to-kill-a-mockingbird/To%20Kill%20a%20Mockingbird.pdf',desc:'A gripping tale of racial injustice and childhood innocence in the American South'},
+    {id:'c102',title:'Pride and Prejudice',author:'Jane Austen',code:'pp1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#e17055,#fab1a0)',pdfUrl:'https://archive.org/download/pride-and-prejudice-jane-austen/Pride%20and%20Prejudice.pdf',desc:'Timeless romance exploring society, marriage, and personal growth'},
+    {id:'c103',title:'1984',author:'George Orwell',code:'1984',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#636e72,#b2bec3)',pdfUrl:'https://archive.org/download/1984-george-orwell/1984.pdf',desc:'Dystopian novel depicting totalitarianism and surveillance'},
+    {id:'c104',title:'The Great Gatsby',author:'F. Scott Fitzgerald',code:'gtsby',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#0984e3,#74b9ff)',pdfUrl:'https://archive.org/download/the-great-gatsby/The%20Great%20Gatsby.pdf',desc:'American classic about wealth, love, and the Jazz Age'},
+    {id:'c105',title:'Jane Eyre',author:'Charlotte Brontë',code:'je1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#fd79a8,#fdcb6e)',pdfUrl:'https://archive.org/download/jane-eyre-charlotte-bronte/Jane%20Eyre.pdf',desc:'Gothic romance with a strong, independent female protagonist'},
+    {id:'c106',title:'Wuthering Heights',author:'Emily Brontë',code:'wh1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#e84393,#fd79a8)',pdfUrl:'https://archive.org/download/wuthering-heights/Wuthering%20Heights.pdf',desc:'Drama of passion and revenge on Yorkshire moors'},
+    {id:'c107',title:'The Catcher in the Rye',author:'J.D. Salinger',code:'cir1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#6c5ce7,#a29bfe)',pdfUrl:'https://archive.org/download/catcher-in-the-rye/The%20Catcher%20in%20the%20Rye.pdf',desc:'Coming-of-age story about teenage alienation and rebellion'},
+    {id:'c108',title:'Moby Dick',author:'Herman Melville',code:'md1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#00b894,#00cec9)',pdfUrl:'https://archive.org/download/moby-dick/Moby%20Dick.pdf',desc:'Epic adventure about obsession and the sea'}
+  ],
+  'classic-indian': [
+    {id:'c201',title:'Godan',author:'Munshi Premchand',code:'god1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#fdcb6e,#e17055)',pdfUrl:'https://archive.org/download/godan-hindi/Godan.pdf',desc:'Poignant tale of Indian village life and agrarian struggles'},
+    {id:'c202',title:'Devdas',author:'Sarat Chandra Chattopadhyay',code:'dev1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#e17055,#fab1a0)',pdfUrl:'https://archive.org/download/devdas/Devdas.pdf',desc:'Bengali tragedy of love and social conventions'},
+    {id:'c203',title:'Chandramukhi',author:'Bankim Chandra Chattopadhyay',code:'chm1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#a29bfe,#dfe6e9)',pdfUrl:'https://archive.org/download/chandramukhi/Chandramukhi.pdf',desc:'Complex narrative about morality and society'},
+    {id:'c204',title:'Untouchable',author:'Mulk Raj Anand',code:'unt1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#636e72,#b2bec3)',pdfUrl:'https://archive.org/download/untouchable/Untouchable.pdf',desc:'Groundbreaking novel about social discrimination in India'},
+    {id:'c205',title:'The Ramayana',author:'Valmiki',code:'ram1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#fd79a8,#fdcb6e)',pdfUrl:'https://archive.org/download/ramayana/Ramayana.pdf',desc:'Epic Sanskrit poem about duty, honor, and dharma'}
+  ]
+};
+
+const SELFHELP = {
+  'motivation': [
+    {id:'s101',title:'Atomic Habits',author:'James Clear',code:'ah1',subject:'Self-Help',emoji:'⚡',gradient:'linear-gradient(135deg,#0984e3,#74b9ff)',pdfUrl:'https://archive.org/download/atomic-habits/Atomic%20Habits.pdf',desc:'Build better habits and break bad ones with science-backed strategies'},
+    {id:'s102',title:'The 7 Habits of Highly Effective People',author:'Stephen Covey',code:'7h1',subject:'Self-Help',emoji:'⚡',gradient:'linear-gradient(135deg,#e17055,#fab1a0)',pdfUrl:'https://archive.org/download/7-habits/The%207%20Habits.pdf',desc:'Life-changing principles for personal and professional effectiveness'},
+    {id:'s103',title:'Think and Grow Rich',author:'Napoleon Hill',code:'tgr1',subject:'Self-Help',emoji:'⚡',gradient:'linear-gradient(135deg,#00b894,#00cec9)',pdfUrl:'https://archive.org/download/think-grow-rich/Think%20and%20Grow%20Rich.pdf',desc:'Classic guide to wealth creation and success mindset'},
+    {id:'s104',title:'The Power of Now',author:'Eckhart Tolle',code:'pn1',subject:'Self-Help',emoji:'⚡',gradient:'linear-gradient(135deg,#fdcb6e,#e17055)',pdfUrl:'https://archive.org/download/power-of-now/The%20Power%20of%20Now.pdf',desc:'Transform your relationship with time and live in the present'},
+    {id:'s105',title:'Man\'s Search for Meaning',author:'Viktor Frankl',code:'msm1',subject:'Self-Help',emoji:'⚡',gradient:'linear-gradient(135deg,#6c5ce7,#a29bfe)',pdfUrl:'https://archive.org/download/mans-search-for-meaning/Mans%20Search%20for%20Meaning.pdf',desc:'Find purpose and meaning even in difficult circumstances'}
+  ],
+  'career': [
+    {id:'s201',title:'Good to Great',author:'Jim Collins',code:'g2g1',subject:'Business',emoji:'💼',gradient:'linear-gradient(135deg,#a29bfe,#dfe6e9)',pdfUrl:'https://archive.org/download/good-to-great/Good%20to%20Great.pdf',desc:'Why some companies make the leap and others don\'t'},
+    {id:'s202',title:'The Lean Startup',author:'Eric Ries',code:'ls1',subject:'Business',emoji:'💼',gradient:'linear-gradient(135deg,#636e72,#b2bec3)',pdfUrl:'https://archive.org/download/lean-startup/The%20Lean%20Startup.pdf',desc:'Build successful businesses with rapid experimentation'},
+    {id:'s203',title:'Zero to One',author:'Peter Thiel',code:'z2o1',subject:'Business',emoji:'💼',gradient:'linear-gradient(135deg,#e84393,#fd79a8)',pdfUrl:'https://archive.org/download/zero-to-one/Zero%20to%20One.pdf',desc:'How to build companies that create the future'},
+    {id:'s204',title:'Shoe Dog',author:'Phil Knight',code:'sd1',subject:'Biography',emoji:'👟',gradient:'linear-gradient(135deg,#fd79a8,#fdcb6e)',pdfUrl:'https://archive.org/download/shoe-dog/Shoe%20Dog.pdf',desc:'Nike founder\'s memoir of business and perseverance'}
+  ]
+};
+
+const TECHNICAL = {
+  'prog-basics': [
+    {id:'t101',title:'Python Crash Course',author:'Eric Matthes',code:'pcc1',subject:'Programming',emoji:'🐍',gradient:'linear-gradient(135deg,#0984e3,#74b9ff)',pdfUrl:'https://archive.org/download/python-crash-course/Python%20Crash%20Course.pdf',desc:'Learn Python programming with practical projects'},
+    {id:'t102',title:'JavaScript: The Good Parts',author:'Douglas Crockford',code:'jsgp1',subject:'Programming',emoji:'💛',gradient:'linear-gradient(135deg,#fdcb6e,#e17055)',pdfUrl:'https://archive.org/download/js-good-parts/JavaScript%20Good%20Parts.pdf',desc:'Essential guide to JavaScript\'s best features'},
+    {id:'t103',title:'Clean Code',author:'Robert Martin',code:'cc1',subject:'Programming',emoji:'🧹',gradient:'linear-gradient(135deg,#e17055,#fab1a0)',pdfUrl:'https://archive.org/download/clean-code/Clean%20Code.pdf',desc:'Write better, more maintainable code'},
+    {id:'t104',title:'Design Patterns',author:'Gang of Four',code:'dp1',subject:'Programming',emoji:'🔷',gradient:'linear-gradient(135deg,#00b894,#00cec9)',pdfUrl:'https://archive.org/download/design-patterns/Design%20Patterns.pdf',desc:'Reusable solutions to common programming problems'},
+    {id:'t105',title:'Refactoring',author:'Martin Fowler',code:'ref1',subject:'Programming',emoji:'♻️',gradient:'linear-gradient(135deg,#6c5ce7,#a29bfe)',pdfUrl:'https://archive.org/download/refactoring/Refactoring.pdf',desc:'Improve code without changing its external behavior'}
+  ],
+  'web-dev': [
+    {id:'t201',title:'Eloquent JavaScript',author:'Marijn Haverbeke',code:'ejs1',subject:'Programming',emoji:'📚',gradient:'linear-gradient(135deg,#a29bfe,#dfe6e9)',pdfUrl:'https://archive.org/download/eloquent-javascript/Eloquent%20JavaScript.pdf',desc:'Comprehensive guide to JavaScript programming'},
+    {id:'t202',title:'The Complete React Guide',author:'Academind',code:'crg1',subject:'Programming',emoji:'⚛️',gradient:'linear-gradient(135deg,#636e72,#b2bec3)',pdfUrl:'https://archive.org/download/react-guide/Complete%20React%20Guide.pdf',desc:'Master React and build modern user interfaces'},
+    {id:'t203',title:'Node.js Design Patterns',author:'Mario Casciaro',code:'ndp1',subject:'Programming',emoji:'🟢',gradient:'linear-gradient(135deg,#e84393,#fd79a8)',pdfUrl:'https://archive.org/download/nodejs-patterns/Node%20Design%20Patterns.pdf',desc:'Build scalable Node.js applications'},
+    {id:'t204',title:'Web Design with HTML & CSS',author:'Jon Duckett',code:'html1',subject:'Programming',emoji:'🌐',gradient:'linear-gradient(135deg,#fd79a8,#fdcb6e)',pdfUrl:'https://archive.org/download/html-css/HTML%20CSS%20Design.pdf',desc:'Create beautiful, responsive websites'}
+  ],
+  'ai-ml': [
+    {id:'t301',title:'Hands-On Machine Learning',author:'Aurélien Géron',code:'homl1',subject:'AI/ML',emoji:'🤖',gradient:'linear-gradient(135deg,#0984e3,#74b9ff)',pdfUrl:'https://archive.org/download/hands-ml/Hands%20On%20Machine%20Learning.pdf',desc:'Practical guide to machine learning with Python'},
+    {id:'t302',title:'Deep Learning',author:'Goodfellow, Bengio, Courville',code:'dl1',subject:'AI/ML',emoji:'🧠',gradient:'linear-gradient(135deg,#e17055,#fab1a0)',pdfUrl:'https://archive.org/download/deep-learning/Deep%20Learning.pdf',desc:'Comprehensive text on deep neural networks'},
+    {id:'t303',title:'Pattern Recognition and Machine Learning',author:'Christopher Bishop',code:'prml1',subject:'AI/ML',emoji:'🔍',gradient:'linear-gradient(135deg,#00b894,#00cec9)',pdfUrl:'https://archive.org/download/prml/Pattern%20Recognition.pdf',desc:'Mathematical foundations of machine learning'}
+  ]
+};
+
 const GRADIENTS = [
   'linear-gradient(135deg,#6c5ce7,#a29bfe)','linear-gradient(135deg,#00b894,#00cec9)',
   'linear-gradient(135deg,#fdcb6e,#e17055)','linear-gradient(135deg,#e84393,#fd79a8)',
@@ -148,4 +205,4 @@ const GRADIENTS = [
   'linear-gradient(135deg,#00cec9,#81ecec)','linear-gradient(135deg,#e17055,#fab1a0)',
   'linear-gradient(135deg,#a29bfe,#dfe6e9)','linear-gradient(135deg,#fd79a8,#fdcb6e)'
 ];
-const SUBJ_EMOJI = {'Computer Science':'💻','Physics':'⚛️','Mathematics':'📐','Chemistry':'🧪','Literature':'📖','Business':'📊','Biology':'🧬','History':'📜','Engineering':'⚙️','Medical':'🏥','Commerce':'💰','Arts':'🎨','General':'📚','Programming':'👨‍💻','AI':'🤖','Design':'🎨','Marketing':'📈','English':'🇬🇧','Hindi':'🇮🇳','Sanskrit':'📜'};
+const SUBJ_EMOJI = {'Computer Science':'💻','Physics':'⚛️','Mathematics':'📐','Chemistry':'🧪','Literature':'📖','Business':'📊','Biology':'🧬','History':'📜','Engineering':'⚙️','Medical':'🏥','Commerce':'💰','Arts':'🎨','General':'📚','Programming':'👨‍💻','AI':'🤖','Design':'🎨','Marketing':'📈','English':'🇬🇧','Hindi':'🇮🇳','Sanskrit':'📜','Self-Help':'⚡','Biography':'👤'};

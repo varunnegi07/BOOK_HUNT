@@ -1076,14 +1076,10 @@ function readBook(){
     return;
   }
   if(!modalBook)return;
-  if(modalBook.code){
-    const url=ncertPdf(modalBook.code,1);
-    openReader(url,`${modalBook.title} - Chapter 1`);
-  } else if(modalBook.olKey){
-    window.open(`https://openlibrary.org${modalBook.olKey}`,'_blank');
-  } else {
-    showToast('📖 No readable version available','error');
-  }
+  
+  // Open new reader.html with book ID and category
+  let category = state.activeSub || 'ncert';
+  window.open(`reader.html?id=${modalBook.id}&cat=${category}`, '_blank');
 }
 
 function readChapter(chNum){
