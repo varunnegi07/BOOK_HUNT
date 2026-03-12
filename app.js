@@ -187,6 +187,15 @@ async function handleLogin(e){
   const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
   if(error) { showToast(error.message, 'error'); return; }
   showToast('✅ Welcome back!');
+
+  // immediately update state in case auth listener takes a moment
+  if(data && data.user){
+    state.user = { name: data.user.user_metadata.full_name || data.user.email.split('@')[0], email: data.user.email };
+    localStorage.setItem('bh_user', JSON.stringify(state.user));
+    await fetchFromSupabase();
+    updateUIForLoggedIn();
+    navigateTo('dashboard');
+  }
 }
 async function handleSignup(e){
   e.preventDefault();
