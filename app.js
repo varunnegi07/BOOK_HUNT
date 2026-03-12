@@ -369,39 +369,44 @@ function selectSub(id){state.activeSub=id;renderLibrary();}
 async function loadBooksForSub(subId){
   const grid=document.getElementById('booksGrid');
   if(!grid)return;
-  // NCERT books
+  
+  grid.innerHTML = '<div class="loading-state"><div class="searching-spinner large"></div><p>Gathering books for your library...</p></div>';
+  
+  let books = [];
+  
+  // 1. Add Local NCERT Books if they exist
   if(NCERT[subId]){
-    grid.innerHTML=NCERT[subId].map(b=>bookCardHTML(b)).join('');
-    return;
+    books = [...NCERT[subId]];
   }
-  // ICSE: use Open Library
-  if(ICSE_QUERIES[subId]){
-    grid.innerHTML='<div class="loading-state"><div class="searching-spinner large"></div><p>Fetching books from Open Library...</p></div>';
+  
+  // 2. Add API Books
+  let apiQuery = null;
+  if(ICSE_QUERIES[subId]) apiQuery = ICSE_QUERIES[subId];
+  else if(OL_QUERIES[subId]) apiQuery = OL_QUERIES[subId];
+
+  // If we have a query for this sub (even if we had NCERT books), let's fetch references
+  if(apiQuery){
     if(!apiBooks[subId]){
-      apiBooks[subId]=await fetchOLBooks(ICSE_QUERIES[subId]);
-    }
-    grid.innerHTML=apiBooks[subId].map(b=>bookCardHTML(b)).join('');
-    if(apiBooks[subId].length===0) grid.innerHTML='<div class="empty-state"><div class="empty-icon">📖</div><h3>No books found</h3><p>Try searching for specific books</p></div>';
-    return;
-  }
-  // College/Exams: use Open Library with multiple queries
-  if(OL_QUERIES[subId]){
-    grid.innerHTML='<div class="loading-state"><div class="searching-spinner large"></div><p>Fetching books from Open Library...</p></div>';
-    if(!apiBooks[subId]){
-      const queries=OL_QUERIES[subId];
-      const q=queries[Math.floor(Math.random()*queries.length)];
-      apiBooks[subId]=await fetchOLBooks(q);
-      // Fetch from 2 more queries
-      for(let i=0;i<2&&i<queries.length;i++){
-        if(queries[i]!==q){
-          const more=await fetchOLBooks(queries[i]);
-          apiBooks[subId].push(...more.filter(b=>!apiBooks[subId].some(e=>e.title===b.title)));
+      if(Array.isArray(apiQuery)){
+        // Fetch from multiple queries for variety
+        let allResults = [];
+        for(let i=0; i<Math.min(apiQuery.length, 3); i++){
+          const res = await fetchOLBooks(apiQuery[i]);
+          allResults.push(...res);
         }
+        apiBooks[subId] = allResults.filter((v,i,a)=>a.findIndex(t=>(t.title === v.title))===i);
+      } else {
+        apiBooks[subId] = await fetchOLBooks(apiQuery);
       }
     }
-    grid.innerHTML=apiBooks[subId].map(b=>bookCardHTML(b)).join('');
-    if(apiBooks[subId].length===0) grid.innerHTML='<div class="empty-state"><div class="empty-icon">📖</div><h3>No books found</h3><p>Try searching for specific books</p></div>';
-    return;
+    books = [...books, ...apiBooks[subId]];
+  }
+
+  // Final Render
+  if(books.length > 0){
+    grid.innerHTML = books.map(b=>bookCardHTML(b)).join('');
+  } else {
+    grid.innerHTML = '<div class="empty-state"><div class="empty-icon">📖</div><h3>No books found</h3><p>Try searching for specific titles</p></div>';
   }
 }
 
