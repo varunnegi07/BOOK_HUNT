@@ -316,6 +316,36 @@ function findBookById(id){
     const found=NCERT[key].find(b=>b.id===id);
     if(found)return found;
   }
+  // Check JEE Reference
+  for(const key in JEE_REFERENCE){
+    const found=JEE_REFERENCE[key].find(b=>b.id===id);
+    if(found)return found;
+  }
+  // Check NEET Reference
+  for(const key in NEET_REFERENCE){
+    const found=NEET_REFERENCE[key].find(b=>b.id===id);
+    if(found)return found;
+  }
+  // Check UPSC Reference
+  for(const key in UPSC_REFERENCE){
+    const found=UPSC_REFERENCE[key].find(b=>b.id===id);
+    if(found)return found;
+  }
+  // Check Exam Papers
+  for(const key in EXAM_PAPERS){
+    const found=EXAM_PAPERS[key].find(b=>b.id===id);
+    if(found)return found;
+  }
+  // Check College Books
+  for(const key in COLLEGE_BOOKS){
+    const found=COLLEGE_BOOKS[key].find(b=>b.id===id);
+    if(found)return found;
+  }
+  // Check Other Exams
+  for(const key in OTHER_EXAMS){
+    const found=OTHER_EXAMS[key].find(b=>b.id===id);
+    if(found)return found;
+  }
   // Check API books
   for(const key in apiBooks){
     const found=apiBooks[key].find(b=>b.id===id);
@@ -379,7 +409,37 @@ async function loadBooksForSub(subId){
     books = [...NCERT[subId]];
   }
   
-  // 2. Add API Books
+  // 2. Add JEE Reference Books
+  if(JEE_REFERENCE[subId]){
+    books = [...books, ...JEE_REFERENCE[subId]];
+  }
+  
+  // 3. Add NEET Reference Books
+  if(NEET_REFERENCE[subId]){
+    books = [...books, ...NEET_REFERENCE[subId]];
+  }
+  
+  // 4. Add UPSC Reference Books
+  if(UPSC_REFERENCE[subId]){
+    books = [...books, ...UPSC_REFERENCE[subId]];
+  }
+  
+  // 5. Add Exam Papers
+  if(EXAM_PAPERS[subId]){
+    books = [...books, ...EXAM_PAPERS[subId]];
+  }
+  
+  // 6. Add College Books
+  if(COLLEGE_BOOKS[subId]){
+    books = [...books, ...COLLEGE_BOOKS[subId]];
+  }
+  
+  // 7. Add Other Exam Books
+  if(OTHER_EXAMS[subId]){
+    books = [...books, ...OTHER_EXAMS[subId]];
+  }
+  
+  // 8. Add API Books
   let apiQuery = null;
   if(ICSE_QUERIES[subId]) apiQuery = ICSE_QUERIES[subId];
   else if(OL_QUERIES[subId]) apiQuery = OL_QUERIES[subId];

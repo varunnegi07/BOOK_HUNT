@@ -124,77 +124,112 @@ const OL_QUERIES = {
   'col-eng':  ['engineering mathematics','data structures algorithms','digital electronics','thermodynamics engineering','engineering mechanics','computer networks','operating systems','database management systems'],
   'col-med':  ['gray anatomy','guyton medical physiology','robbins pathology','harrison internal medicine','biochemistry stryer','pharmacology goodman'],
   'col-com':  ['financial accounting','business economics','corporate law','cost accounting','income tax','business statistics'],
-  'col-art':  ['indian history','political science','sociology','psychology','philosology','english literature'],
+  'col-art':  ['indian history','political science','sociology','psychology','philosophy','english literature'],
   'ex-jee':   ['IIT JEE physics','JEE advanced mathematics','JEE chemistry concepts','HC Verma physics','irodov problems','RD Sharma mathematics'],
   'ex-neet':  ['NEET biology','NEET physics','NEET chemistry','trueman biology','DC pandey physics'],
   'ex-upsc':  ['indian polity laxmikanth','indian economy ramesh singh','UPSC general studies','geography UPSC','modern india history','NCERT UPSC'],
   'ex-cat':   ['quantitative aptitude CAT','verbal ability CAT','logical reasoning','data interpretation','MBA entrance','arun sharma CAT'],
-  'sk-prog':  ['javascript programming','python crash course','java complete reference','c++ programming','node.js design patterns','react development'],
-  'sk-ai':    ['machine learning','artificial intelligence','data science handbook','deep learning','neural networks','natural language processing'],
-  'sk-design':['graphic design principles','UI UX design','web design','adobe photoshop','figma design','typography'],
-  'sk-mark':  ['digital marketing','social media marketing','brand management','advertising strategy','copywriting'],
-  'lang-eng': ['english grammar wren martin','oxford english dictionary','vocabulary building','english literature classics'],
-  'lang-hin': ['hindi literature','premchand godan','hindi grammar','kabir ke dohe','mahavir prasad dwivedi'],
-  'lang-san': ['sanskrit grammar','panini ashtayi','bhagavad gita sanskrit','sanskrit hitopadesha'],
+  'lang-eng': ['english grammar wren martin','oxford english dictionary','vocabulary building','english literature'],
+  'lang-hin': ['hindi grammar','hindi literature','hindi medium textbooks'],
+  'lang-san': ['sanskrit grammar','sanskrit textbooks'],
   'sb-maha':  ['maharashtra state board textbooks','SSC HSC maharashtra','maharashtra board science'],
   'sb-up':    ['UP board textbooks','uttar pradesh board math','UP board science hindi'],
   'sb-wb':    ['west bengal board textbooks','madhyamik books','higher secondary west bengal']
 };
 
-const CLASSICS = {
-  'classic-fiction': [
-    {id:'c101',title:'To Kill a Mockingbird',author:'Harper Lee',code:'kmb1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#a29bfe,#dfe6e9)',pdfUrl:'https://archive.org/download/to-kill-a-mockingbird/To%20Kill%20a%20Mockingbird.pdf',desc:'A gripping tale of racial injustice and childhood innocence in the American South'},
-    {id:'c102',title:'Pride and Prejudice',author:'Jane Austen',code:'pp1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#e17055,#fab1a0)',pdfUrl:'https://archive.org/download/pride-and-prejudice-jane-austen/Pride%20and%20Prejudice.pdf',desc:'Timeless romance exploring society, marriage, and personal growth'},
-    {id:'c103',title:'1984',author:'George Orwell',code:'1984',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#636e72,#b2bec3)',pdfUrl:'https://archive.org/download/1984-george-orwell/1984.pdf',desc:'Dystopian novel depicting totalitarianism and surveillance'},
-    {id:'c104',title:'The Great Gatsby',author:'F. Scott Fitzgerald',code:'gtsby',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#0984e3,#74b9ff)',pdfUrl:'https://archive.org/download/the-great-gatsby/The%20Great%20Gatsby.pdf',desc:'American classic about wealth, love, and the Jazz Age'},
-    {id:'c105',title:'Jane Eyre',author:'Charlotte Brontë',code:'je1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#fd79a8,#fdcb6e)',pdfUrl:'https://archive.org/download/jane-eyre-charlotte-bronte/Jane%20Eyre.pdf',desc:'Gothic romance with a strong, independent female protagonist'},
-    {id:'c106',title:'Wuthering Heights',author:'Emily Brontë',code:'wh1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#e84393,#fd79a8)',pdfUrl:'https://archive.org/download/wuthering-heights/Wuthering%20Heights.pdf',desc:'Drama of passion and revenge on Yorkshire moors'},
-    {id:'c107',title:'The Catcher in the Rye',author:'J.D. Salinger',code:'cir1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#6c5ce7,#a29bfe)',pdfUrl:'https://archive.org/download/catcher-in-the-rye/The%20Catcher%20in%20the%20Rye.pdf',desc:'Coming-of-age story about teenage alienation and rebellion'},
-    {id:'c108',title:'Moby Dick',author:'Herman Melville',code:'md1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#00b894,#00cec9)',pdfUrl:'https://archive.org/download/moby-dick/Moby%20Dick.pdf',desc:'Epic adventure about obsession and the sea'}
+const JEE_REFERENCE = {
+  'jee-physics': [
+    {id:'jp101',title:'HC Verma Physics Part 1',author:'HC Verma',code:'hcvp1',subject:'Physics',emoji:'⚛️',gradient:'linear-gradient(135deg,#e84393,#fd79a8)',pdfUrl:'https://archive.org/download/hc-verma-physics/HC_Verma_Physics_Part1.pdf',desc:'Essential physics for JEE with conceptual clarity and problems'},
+    {id:'jp102',title:'HC Verma Physics Part 2',author:'HC Verma',code:'hcvp2',subject:'Physics',emoji:'⚛️',gradient:'linear-gradient(135deg,#e84393,#fd79a8)',pdfUrl:'https://archive.org/download/hc-verma-physics/HC_Verma_Physics_Part2.pdf',desc:'Advanced physics concepts for JEE advanced preparation'},
+    {id:'jp103',title:'IE Irodov Problems',author:'IE Irodov',code:'irodov',subject:'Physics',emoji:'⚛️',gradient:'linear-gradient(135deg,#e84393,#fd79a8)',pdfUrl:'https://archive.org/download/irodov-problems/Irodov_Problems.pdf',desc:'Challenging physics problems for JEE Advanced'}
   ],
-  'classic-indian': [
-    {id:'c201',title:'Godan',author:'Munshi Premchand',code:'god1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#fdcb6e,#e17055)',pdfUrl:'https://archive.org/download/godan-hindi/Godan.pdf',desc:'Poignant tale of Indian village life and agrarian struggles'},
-    {id:'c202',title:'Devdas',author:'Sarat Chandra Chattopadhyay',code:'dev1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#e17055,#fab1a0)',pdfUrl:'https://archive.org/download/devdas/Devdas.pdf',desc:'Bengali tragedy of love and social conventions'},
-    {id:'c203',title:'Chandramukhi',author:'Bankim Chandra Chattopadhyay',code:'chm1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#a29bfe,#dfe6e9)',pdfUrl:'https://archive.org/download/chandramukhi/Chandramukhi.pdf',desc:'Complex narrative about morality and society'},
-    {id:'c204',title:'Untouchable',author:'Mulk Raj Anand',code:'unt1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#636e72,#b2bec3)',pdfUrl:'https://archive.org/download/untouchable/Untouchable.pdf',desc:'Groundbreaking novel about social discrimination in India'},
-    {id:'c205',title:'The Ramayana',author:'Valmiki',code:'ram1',subject:'Literature',emoji:'📖',gradient:'linear-gradient(135deg,#fd79a8,#fdcb6e)',pdfUrl:'https://archive.org/download/ramayana/Ramayana.pdf',desc:'Epic Sanskrit poem about duty, honor, and dharma'}
+  'jee-chemistry': [
+    {id:'jc101',title:'Physical Chemistry - O.P. Tandon',author:'OP Tandon',code:'optc',subject:'Chemistry',emoji:'🧪',gradient:'linear-gradient(135deg,#fdcb6e,#e17055)',pdfUrl:'https://archive.org/download/op-tandon-chemistry/OP_Tandon_Physical_Chemistry.pdf',desc:'Comprehensive physical chemistry for JEE entrance'},
+    {id:'jc102',title:'Organic Chemistry - M.S. Chauhan',author:'MS Chauhan',code:'msoc',subject:'Chemistry',emoji:'🧪',gradient:'linear-gradient(135deg,#fdcb6e,#e17055)',pdfUrl:'https://archive.org/download/ms-chauhan-chemistry/MS_Chauhan_Organic_Chemistry.pdf',desc:'Best reference for organic chemistry mechanisms'},
+    {id:'jc103',title:'Inorganic Chemistry - J.D. Lee',author:'JD Lee',code:'jdic',subject:'Chemistry',emoji:'🧪',gradient:'linear-gradient(135deg,#fdcb6e,#e17055)',pdfUrl:'https://archive.org/download/jd-lee-chemistry/JD_Lee_Inorganic_Chemistry.pdf',desc:'Standard text for inorganic chemistry JEE'}
+  ],
+  'jee-mathematics': [
+    {id:'jm101',title:'RD Sharma Mathematics',author:'RD Sharma',code:'rdsm',subject:'Mathematics',emoji:'📐',gradient:'linear-gradient(135deg,#6c5ce7,#a29bfe)',pdfUrl:'https://archive.org/download/rd-sharma-math/RD_Sharma_Mathematics.pdf',desc:'Complete mathematics book for JEE with solved examples'},
+    {id:'jm102',title:'Cengage IIT JEE Mathematics',author:'Cengage',code:'cengage',subject:'Mathematics',emoji:'📐',gradient:'linear-gradient(135deg,#6c5ce7,#a29bfe)',pdfUrl:'https://archive.org/download/cengage-jee-math/Cengage_IIT_JEE_Math.pdf',desc:'Advanced problems and solutions for JEE Mains and Advanced'}
   ]
 };
 
-const SELFHELP = {
-  'motivation': [
-    {id:'s101',title:'Atomic Habits',author:'James Clear',code:'ah1',subject:'Self-Help',emoji:'⚡',gradient:'linear-gradient(135deg,#0984e3,#74b9ff)',pdfUrl:'https://archive.org/download/atomic-habits/Atomic%20Habits.pdf',desc:'Build better habits and break bad ones with science-backed strategies'},
-    {id:'s102',title:'The 7 Habits of Highly Effective People',author:'Stephen Covey',code:'7h1',subject:'Self-Help',emoji:'⚡',gradient:'linear-gradient(135deg,#e17055,#fab1a0)',pdfUrl:'https://archive.org/download/7-habits/The%207%20Habits.pdf',desc:'Life-changing principles for personal and professional effectiveness'},
-    {id:'s103',title:'Think and Grow Rich',author:'Napoleon Hill',code:'tgr1',subject:'Self-Help',emoji:'⚡',gradient:'linear-gradient(135deg,#00b894,#00cec9)',pdfUrl:'https://archive.org/download/think-grow-rich/Think%20and%20Grow%20Rich.pdf',desc:'Classic guide to wealth creation and success mindset'},
-    {id:'s104',title:'The Power of Now',author:'Eckhart Tolle',code:'pn1',subject:'Self-Help',emoji:'⚡',gradient:'linear-gradient(135deg,#fdcb6e,#e17055)',pdfUrl:'https://archive.org/download/power-of-now/The%20Power%20of%20Now.pdf',desc:'Transform your relationship with time and live in the present'},
-    {id:'s105',title:'Man\'s Search for Meaning',author:'Viktor Frankl',code:'msm1',subject:'Self-Help',emoji:'⚡',gradient:'linear-gradient(135deg,#6c5ce7,#a29bfe)',pdfUrl:'https://archive.org/download/mans-search-for-meaning/Mans%20Search%20for%20Meaning.pdf',desc:'Find purpose and meaning even in difficult circumstances'}
+const NEET_REFERENCE = {
+  'neet-biology': [
+    {id:'nb101',title:'NCERT Biology Class 11',author:'NCERT',code:'ncbio11',subject:'Biology',emoji:'🧬',gradient:'linear-gradient(135deg,#00cec9,#81ecec)',pdfUrl:'https://archive.org/download/ncert-biology-11/NCERT_Biology_Class_11.pdf',desc:'Foundation for NEET biology - must read thoroughly'},
+    {id:'nb102',title:'NCERT Biology Class 12',author:'NCERT',code:'ncbio12',subject:'Biology',emoji:'🧬',gradient:'linear-gradient(135deg,#00cec9,#81ecec)',pdfUrl:'https://archive.org/download/ncert-biology-12/NCERT_Biology_Class_12.pdf',desc:'Advanced biology topics for NEET exam'},
+    {id:'nb103',title:'Trueman Biology Volume 1',author:'Trueman',code:'truebio1',subject:'Biology',emoji:'🧬',gradient:'linear-gradient(135deg,#00cec9,#81ecec)',pdfUrl:'https://archive.org/download/trueman-biology/Trueman_Biology_Vol1.pdf',desc:'Best reference book for NEET biology'},
+    {id:'nb104',title:'Trueman Biology Volume 2',author:'Trueman',code:'truebio2',subject:'Biology',emoji:'🧬',gradient:'linear-gradient(135deg,#00cec9,#81ecec)',pdfUrl:'https://archive.org/download/trueman-biology/Trueman_Biology_Vol2.pdf',desc:'Advanced biology topics and questions'}
   ],
-  'career': [
-    {id:'s201',title:'Good to Great',author:'Jim Collins',code:'g2g1',subject:'Business',emoji:'💼',gradient:'linear-gradient(135deg,#a29bfe,#dfe6e9)',pdfUrl:'https://archive.org/download/good-to-great/Good%20to%20Great.pdf',desc:'Why some companies make the leap and others don\'t'},
-    {id:'s202',title:'The Lean Startup',author:'Eric Ries',code:'ls1',subject:'Business',emoji:'💼',gradient:'linear-gradient(135deg,#636e72,#b2bec3)',pdfUrl:'https://archive.org/download/lean-startup/The%20Lean%20Startup.pdf',desc:'Build successful businesses with rapid experimentation'},
-    {id:'s203',title:'Zero to One',author:'Peter Thiel',code:'z2o1',subject:'Business',emoji:'💼',gradient:'linear-gradient(135deg,#e84393,#fd79a8)',pdfUrl:'https://archive.org/download/zero-to-one/Zero%20to%20One.pdf',desc:'How to build companies that create the future'},
-    {id:'s204',title:'Shoe Dog',author:'Phil Knight',code:'sd1',subject:'Biography',emoji:'👟',gradient:'linear-gradient(135deg,#fd79a8,#fdcb6e)',pdfUrl:'https://archive.org/download/shoe-dog/Shoe%20Dog.pdf',desc:'Nike founder\'s memoir of business and perseverance'}
+  'neet-physics': [
+    {id:'np101',title:'NCERT Physics Class 11',author:'NCERT',code:'ncphy11',subject:'Physics',emoji:'⚛️',gradient:'linear-gradient(135deg,#e84393,#fd79a8)',pdfUrl:'https://archive.org/download/ncert-physics-11/NCERT_Physics_11.pdf',desc:'Core physics concepts for NEET foundation'},
+    {id:'np102',title:'DC Pandey Physics',author:'DC Pandey',code:'dcphys',subject:'Physics',emoji:'⚛️',gradient:'linear-gradient(135deg,#e84393,#fd79a8)',pdfUrl:'https://archive.org/download/dc-pandey-physics/DC_Pandey_Physics.pdf',desc:'Best physics practice for NEET with conceptual questions'}
+  ],
+  'neet-chemistry': [
+    {id:'nc101',title:'NCERT Chemistry Class 11',author:'NCERT',code:'ncchem11',subject:'Chemistry',emoji:'🧪',gradient:'linear-gradient(135deg,#fdcb6e,#e17055)',pdfUrl:'https://archive.org/download/ncert-chemistry-11/NCERT_Chemistry_11.pdf',desc:'Foundation chemistry for NEET'},
+    {id:'nc102',title:'NCERT Chemistry Class 12',author:'NCERT',code:'ncchem12',subject:'Chemistry',emoji:'🧪',gradient:'linear-gradient(135deg,#fdcb6e,#e17055)',pdfUrl:'https://archive.org/download/ncert-chemistry-12/NCERT_Chemistry_12.pdf',desc:'Advanced chemistry with organic focus'},
+    {id:'nc103',title:'Physical Chemistry - N Awasthi',author:'N Awasthi',code:'napc',subject:'Chemistry',emoji:'🧪',gradient:'linear-gradient(135deg,#fdcb6e,#e17055)',pdfUrl:'https://archive.org/download/n-awasthi-chemistry/N_Awasthi_Physical_Chemistry.pdf',desc:'Comprehensive physical chemistry reference'}
   ]
 };
 
-const TECHNICAL = {
-  'prog-basics': [
-    {id:'t101',title:'Python Crash Course',author:'Eric Matthes',code:'pcc1',subject:'Programming',emoji:'🐍',gradient:'linear-gradient(135deg,#0984e3,#74b9ff)',pdfUrl:'https://archive.org/download/python-crash-course/Python%20Crash%20Course.pdf',desc:'Learn Python programming with practical projects'},
-    {id:'t102',title:'JavaScript: The Good Parts',author:'Douglas Crockford',code:'jsgp1',subject:'Programming',emoji:'💛',gradient:'linear-gradient(135deg,#fdcb6e,#e17055)',pdfUrl:'https://archive.org/download/js-good-parts/JavaScript%20Good%20Parts.pdf',desc:'Essential guide to JavaScript\'s best features'},
-    {id:'t103',title:'Clean Code',author:'Robert Martin',code:'cc1',subject:'Programming',emoji:'🧹',gradient:'linear-gradient(135deg,#e17055,#fab1a0)',pdfUrl:'https://archive.org/download/clean-code/Clean%20Code.pdf',desc:'Write better, more maintainable code'},
-    {id:'t104',title:'Design Patterns',author:'Gang of Four',code:'dp1',subject:'Programming',emoji:'🔷',gradient:'linear-gradient(135deg,#00b894,#00cec9)',pdfUrl:'https://archive.org/download/design-patterns/Design%20Patterns.pdf',desc:'Reusable solutions to common programming problems'},
-    {id:'t105',title:'Refactoring',author:'Martin Fowler',code:'ref1',subject:'Programming',emoji:'♻️',gradient:'linear-gradient(135deg,#6c5ce7,#a29bfe)',pdfUrl:'https://archive.org/download/refactoring/Refactoring.pdf',desc:'Improve code without changing its external behavior'}
+const UPSC_REFERENCE = {
+  'upsc-polity': [
+    {id:'up101',title:'Indian Polity - Laxmikant',author:'M Laxmikanth',code:'laxpol',subject:'Polity',emoji:'⚖️',gradient:'linear-gradient(135deg,#636e72,#b2bec3)',pdfUrl:'https://archive.org/download/laxmikanth-polity/Laxmikanth_Indian_Polity.pdf',desc:'Essential book for UPSC/SSC - Indian constitution and governance'},
+    {id:'up102',title:'Indian Constitution - D.D. Basu',author:'DD Basu',code:'ddbasu',subject:'Polity',emoji:'⚖️',gradient:'linear-gradient(135deg,#636e72,#b2bec3)',pdfUrl:'https://archive.org/download/dd-basu-constitution/DD_Basu_Constitution.pdf',desc:'Detailed analysis of Indian Constitution'}
   ],
-  'web-dev': [
-    {id:'t201',title:'Eloquent JavaScript',author:'Marijn Haverbeke',code:'ejs1',subject:'Programming',emoji:'📚',gradient:'linear-gradient(135deg,#a29bfe,#dfe6e9)',pdfUrl:'https://archive.org/download/eloquent-javascript/Eloquent%20JavaScript.pdf',desc:'Comprehensive guide to JavaScript programming'},
-    {id:'t202',title:'The Complete React Guide',author:'Academind',code:'crg1',subject:'Programming',emoji:'⚛️',gradient:'linear-gradient(135deg,#636e72,#b2bec3)',pdfUrl:'https://archive.org/download/react-guide/Complete%20React%20Guide.pdf',desc:'Master React and build modern user interfaces'},
-    {id:'t203',title:'Node.js Design Patterns',author:'Mario Casciaro',code:'ndp1',subject:'Programming',emoji:'🟢',gradient:'linear-gradient(135deg,#e84393,#fd79a8)',pdfUrl:'https://archive.org/download/nodejs-patterns/Node%20Design%20Patterns.pdf',desc:'Build scalable Node.js applications'},
-    {id:'t204',title:'Web Design with HTML & CSS',author:'Jon Duckett',code:'html1',subject:'Programming',emoji:'🌐',gradient:'linear-gradient(135deg,#fd79a8,#fdcb6e)',pdfUrl:'https://archive.org/download/html-css/HTML%20CSS%20Design.pdf',desc:'Create beautiful, responsive websites'}
+  'upsc-history': [
+    {id:'uh101',title:'Modern India - Ramachandra Guha',author:'Ramachandra Guha',code:'rg-history',subject:'History',emoji:'📜',gradient:'linear-gradient(135deg,#fdcb6e,#e17055)',pdfUrl:'https://archive.org/download/ramachandra-guha/Ramachandra_Guha_Modern_India.pdf',desc:'Best history resource for UPSC - comprehensive coverage'},
+    {id:'uh102',title:'Ancient India - NCERT',author:'NCERT',code:'nchist',subject:'History',emoji:'📜',gradient:'linear-gradient(135deg,#fdcb6e,#e17055)',pdfUrl:'https://archive.org/download/ncert-history/NCERT_History.pdf',desc:'Foundation for ancient and medieval history'}
   ],
-  'ai-ml': [
-    {id:'t301',title:'Hands-On Machine Learning',author:'Aurélien Géron',code:'homl1',subject:'AI/ML',emoji:'🤖',gradient:'linear-gradient(135deg,#0984e3,#74b9ff)',pdfUrl:'https://archive.org/download/hands-ml/Hands%20On%20Machine%20Learning.pdf',desc:'Practical guide to machine learning with Python'},
-    {id:'t302',title:'Deep Learning',author:'Goodfellow, Bengio, Courville',code:'dl1',subject:'AI/ML',emoji:'🧠',gradient:'linear-gradient(135deg,#e17055,#fab1a0)',pdfUrl:'https://archive.org/download/deep-learning/Deep%20Learning.pdf',desc:'Comprehensive text on deep neural networks'},
-    {id:'t303',title:'Pattern Recognition and Machine Learning',author:'Christopher Bishop',code:'prml1',subject:'AI/ML',emoji:'🔍',gradient:'linear-gradient(135deg,#00b894,#00cec9)',pdfUrl:'https://archive.org/download/prml/Pattern%20Recognition.pdf',desc:'Mathematical foundations of machine learning'}
+  'upsc-economics': [
+    {id:'ue101',title:'Indian Economy - Ramesh Singh',author:'Ramesh Singh',code:'rseco',subject:'Economics',emoji:'📊',gradient:'linear-gradient(135deg,#0984e3,#74b9ff)',pdfUrl:'https://archive.org/download/ramesh-singh-economy/Ramesh_Singh_Indian_Economy.pdf',desc:'Most important book for UPSC economics and current affairs'}
+  ]
+};
+
+const EXAM_PAPERS = {
+  'jee-papers': [
+    {id:'jp201',title:'JEE Main Previous Year Papers (2023-2024)',author:'NTA',code:'jee-pyq',subject:'JEE',emoji:'📋',gradient:'linear-gradient(135deg,#e84393,#fd79a8)',pdfUrl:'https://archive.org/download/jee-main-papers/JEE_Main_2024_Papers.pdf',desc:'Official JEE Main previous year question papers - essential for practice'},
+    {id:'jp202',title:'JEE Advanced Previous Year Papers',author:'JAB',code:'adv-pyq',subject:'JEE',emoji:'📋',gradient:'linear-gradient(135deg,#e84393,#fd79a8)',pdfUrl:'https://archive.org/download/jee-advanced-papers/JEE_Advanced_Papers.pdf',desc:'JEE Advanced question papers with solutions'}
+  ],
+  'neet-papers': [
+    {id:'np201',title:'NEET Previous Year Papers (2023-2024)',author:'NTA',code:'neet-pyq',subject:'NEET',emoji:'📋',gradient:'linear-gradient(135deg,#00cec9,#81ecec)',pdfUrl:'https://archive.org/download/neet-papers/NEET_2024_Papers.pdf',desc:'Official NEET previous years - critical for last-minute prep'},
+    {id:'np202',title:'NEET Sample Papers',author:'Various',code:'neet-sample',subject:'NEET',emoji:'📋',gradient:'linear-gradient(135deg,#00cec9,#81ecec)',pdfUrl:'https://archive.org/download/neet-sample/NEET_Sample_Papers.pdf',desc:'Practice papers matching NEET difficulty level'}
+  ],
+  'board-papers': [
+    {id:'bp101',title:'CBSE Board Exam Papers (2023-2024)',author:'CBSE',code:'cbse-board',subject:'Board',emoji:'📋',gradient:'linear-gradient(135deg,#6c5ce7,#a29bfe)',pdfUrl:'https://archive.org/download/cbse-board-papers/CBSE_Board_Papers_2024.pdf',desc:'Official CBSE board exam question papers'},
+    {id:'bp102',title:'ICSE Board Exam Papers (2023-2024)',author:'ICSE',code:'icse-board',subject:'Board',emoji:'📋',gradient:'linear-gradient(135deg,#a29bfe,#dfe6e9)',pdfUrl:'https://archive.org/download/icse-board-papers/ICSE_Board_Papers_2024.pdf',desc:'ICSE board exam papers for all subjects'}
+  ]
+};
+
+const COLLEGE_BOOKS = {
+  'engineering': [
+    {id:'ce101',title:'Engineering Mathematics - Kreyszig',author:'Erwin Kreyszig',code:'engmath',subject:'Engineering',emoji:'📐',gradient:'linear-gradient(135deg,#6c5ce7,#a29bfe)',pdfUrl:'https://archive.org/download/kreyszig-engineering-math/Kreyszig_Engineering_Math.pdf',desc:'Advanced mathematics for engineering - includes differential equations, transforms'},
+    {id:'ce102',title:'Data Structures and Algorithms - CLRS',author:'Cormen,Leiserson,Rivest,Stein',code:'clrs',subject:'Computer Science',emoji:'💻',gradient:'linear-gradient(135deg,#0984e3,#74b9ff)',pdfUrl:'https://archive.org/download/clrs-dsa/Introduction_to_Algorithms.pdf',desc:'Bible of computer science - essential for all engineers'},
+    {id:'ce103',title:'Digital Electronics - Morris Mano',author:'Morris Mano',code:'demano',subject:'Electronics',emoji:'⚙️',gradient:'linear-gradient(135deg,#e84393,#fd79a8)',pdfUrl:'https://archive.org/download/morris-mano/Morris_Mano_Digital_Design.pdf',desc:'Best book for digital electronics and logic design'}
+  ],
+  'medical': [
+    {id:'cm101',title:'Grays Anatomy for Students',author:'Richard Drake',code:'grays',subject:'Medical',emoji:'🏥',gradient:'linear-gradient(135deg,#e17055,#fab1a0)',pdfUrl:'https://archive.org/download/grays-anatomy/Grays_Anatomy_Students.pdf',desc:'Essential anatomical reference for medical students'},
+    {id:'cm102',title:'Guyton Physiology - Text Review',author:'Guyton & Hall',code:'guyton',subject:'Medical',emoji:'🏥',gradient:'linear-gradient(135deg,#e17055,#fab1a0)',pdfUrl:'https://archive.org/download/guyton-physiology/Guyton_Physiology_Review.pdf',desc:'Standard physiology textbook for medical/NEET'},
+    {id:'cm103',title:'Robbins Pathology',author:'Kumar & Clark',code:'robbins',subject:'Medical',emoji:'🏥',gradient:'linear-gradient(135deg,#e17055,#fab1a0)',pdfUrl:'https://archive.org/download/robbins-pathology/Robbins_Pathology.pdf',desc:'Comprehensive pathology for medical education'}
+  ],
+  'business': [
+    {id:'cb101',title:'Financial Accounting - IITM',author:'IITM Faculty',code:'fineacc',subject:'Commerce',emoji:'💰',gradient:'linear-gradient(135deg,#636e72,#b2bec3)',pdfUrl:'https://archive.org/download/iitm-accounting/IITM_Financial_Accounting.pdf',desc:'Standard financial accounting for commerce students'},
+    {id:'cb102',title:'Business Economics - Samuelson',author:'Paul Samuelson',code:'becon',subject:'Economics',emoji:'📊',gradient:'linear-gradient(135deg,#0984e3,#74b9ff)',pdfUrl:'https://archive.org/download/samuelson-economics/Samuelson_Economics.pdf',desc:'Advanced economics for business and commerce'}
+  ]
+};
+
+const OTHER_EXAMS = {
+  'cat-prep': [
+    {id:'cat101',title:'Arun Sharma CAT Quantitative',author:'Arun Sharma',code:'ascat-q',subject:'CAT',emoji:'📊',gradient:'linear-gradient(135deg,#0984e3,#74b9ff)',pdfUrl:'https://archive.org/download/arun-sharma-cat/Arun_Sharma_CAT_Quant.pdf',desc:'Best quantitative aptitude book for CAT exam'},
+    {id:'cat102',title:'CAT Verbal Ability - Sinha',author:'Meenakshi Sinha',code:'cat-va',subject:'CAT',emoji:'📖',gradient:'linear-gradient(135deg,#636e72,#b2bec3)',pdfUrl:'https://archive.org/download/sinha-cat-verbal/Sinha_CAT_Verbal.pdf',desc:'English and reading comprehension for CAT'}
+  ],
+  'banking': [
+    {id:'bank101',title:'Banking Awareness - Manorama',author:'Manorama',code:'bankaware',subject:'Banking',emoji:'🏦',gradient:'linear-gradient(135deg,#0984e3,#74b9ff)',pdfUrl:'https://archive.org/download/manorama-banking/Manorama_Banking.pdf',desc:'Complete banking knowledge for SBI/IBPS exams'},
+    {id:'bank102',title:'Quantitative Aptitude for Banking',author:'RS Aggarwal',code:'bankquant',subject:'Banking',emoji:'📊',gradient:'linear-gradient(135deg,#6c5ce7,#a29bfe)',pdfUrl:'https://archive.org/download/rs-aggarwal-banking/RS_Aggarwal_Banking_Quant.pdf',desc:'Math problems specifically designed for banking exams'}
+  ],
+  'ssc-prep': [
+    {id:'ssc101',title:'SSC Reasoning - RS Aggarwal',author:'RS Aggarwal',code:'ssc-reason',subject:'SSC',emoji:'🧠',gradient:'linear-gradient(135deg,#e84393,#fd79a8)',pdfUrl:'https://archive.org/download/rs-aggarwal-ssc/RS_Aggarwal_Reasoning.pdf',desc:'Logical reasoning for SSC exams'},
+    {id:'ssc102',title:'SSC English - Objective English',author:'Objective',code:'ssc-eng',subject:'SSC',emoji:'📖',gradient:'linear-gradient(135deg,#636e72,#b2bec3)',pdfUrl:'https://archive.org/download/objective-english/Objective_English_SSC.pdf',desc:'Grammar and vocabulary for SSC CGL/CHSL'}
   ]
 };
 
@@ -206,3 +241,74 @@ const GRADIENTS = [
   'linear-gradient(135deg,#a29bfe,#dfe6e9)','linear-gradient(135deg,#fd79a8,#fdcb6e)'
 ];
 const SUBJ_EMOJI = {'Computer Science':'💻','Physics':'⚛️','Mathematics':'📐','Chemistry':'🧪','Literature':'📖','Business':'📊','Biology':'🧬','History':'📜','Engineering':'⚙️','Medical':'🏥','Commerce':'💰','Arts':'🎨','General':'📚','Programming':'👨‍💻','AI':'🤖','Design':'🎨','Marketing':'📈','English':'🇬🇧','Hindi':'🇮🇳','Sanskrit':'📜','Self-Help':'⚡','Biography':'👤'};
+
+const CATEGORIES = [
+  {
+    id: 'ncert',
+    name: 'NCERT Textbooks',
+    icon: '📚',
+    subs: [
+      {id:'cbse-6',name:'Class 6'},{id:'cbse-7',name:'Class 7'},{id:'cbse-8',name:'Class 8'},
+      {id:'cbse-9',name:'Class 9'},{id:'cbse-10',name:'Class 10'},{id:'cbse-11',name:'Class 11'},
+      {id:'cbse-12',name:'Class 12'}
+    ]
+  },
+  {
+    id: 'jee',
+    name: 'JEE Main + Advanced',
+    icon: '⚛️',
+    subs: [
+      {id:'jee-physics',name:'Physics'},{id:'jee-chemistry',name:'Chemistry'},{id:'jee-mathematics',name:'Mathematics'}
+    ]
+  },
+  {
+    id: 'neet',
+    name: 'NEET Medical',
+    icon: '🧬',
+    subs: [
+      {id:'neet-biology',name:'Biology'},{id:'neet-physics',name:'Physics'},{id:'neet-chemistry',name:'Chemistry'}
+    ]
+  },
+  {
+    id: 'upsc',
+    name: 'UPSC/IAS Preparation',
+    icon: '⚖️',
+    subs: [
+      {id:'upsc-polity',name:'Polity & Constitution'},{id:'upsc-history',name:'History'},{id:'upsc-economics',name:'Economics'}
+    ]
+  },
+  {
+    id: 'exams',
+    name: 'Competitive Exams',
+    icon: '🎯',
+    subs: [
+      {id:'cat-prep',name:'CAT & MBA'},{id:'banking',name:'Banking & SBI'},{id:'ssc-prep',name:'SSC'}
+    ]
+  },
+  {
+    id: 'papers',
+    name: 'Previous Exam Papers',
+    icon: '📋',
+    subs: [
+      {id:'jee-papers',name:'JEE Papers'},{id:'neet-papers',name:'NEET Papers'},{id:'board-papers',name:'Board Exams'}
+    ]
+  },
+  {
+    id: 'college',
+    name: 'College & Higher Ed',
+    icon: '🎓',
+    subs: [
+      {id:'engineering',name:'Engineering'},{id:'medical',name:'Medical'},{id:'business',name:'Business & Commerce'}
+    ]
+  },
+  {
+    id: 'icse',
+    name: 'ICSE & State Boards',
+    icon: '🏫',
+    subs: [
+      {id:'icse-6',name:'ICSE Class 6'},{id:'icse-7',name:'ICSE Class 7'},{id:'icse-8',name:'ICSE Class 8'},
+      {id:'icse-9',name:'ICSE Class 9'},{id:'icse-10',name:'ICSE Class 10'},{id:'icse-11',name:'ISC Class 11'},
+      {id:'icse-12',name:'ISC Class 12'}
+    ]
+  }
+];
