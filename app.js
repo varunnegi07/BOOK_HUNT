@@ -14,6 +14,10 @@ const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 // ── State ──
 let nextId = 5000;
 let apiBooks = {}; // category -> books[]
+
+// Open Library search endpoint used for third‑party lookups
+const OL_SEARCH = 'https://openlibrary.org/search.json';
+
 let state = {
   user: JSON.parse(localStorage.getItem('bh_user')) || null,
   bookmarks: JSON.parse(localStorage.getItem('bh_bookmarks')) || [],
